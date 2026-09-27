@@ -1,551 +1,534 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ROBO TITANS #123 | NRL 2026 Official Team Portal & 3D Robotics Experience</title>
-    <meta name="description" content="Robo Titans #123 — India's premier combat robotics team competing in the National Robotics League 2026. Meet the 9 Titans, explore TITAN-X123 specs, and join the arena.">
+    <title>ROBO TITANS #123 | NRL 2026 Official Team Portal &amp; 3D Robotics Experience</title>
 
-    <!-- Google Fonts -->
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts & FontAwesome -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;800;900&family=Rajdhani:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- Three.js for 3D Background -->
+    <!-- Three.js (r128 UMD) for 3D Background -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <!-- Tailwind theme config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cyber: {
+                            black: '#060917',
+                            dark: '#0a1028',
+                            card: '#0f183d',
+                            border: '#1e2c56',
+                            cyan: '#00f5d4',
+                            blue: '#00b4d8',
+                            gold: '#ffb703',
+                            orange: '#fb8500',
+                            neonGreen: '#06d6a0',
+                            purple: '#8b5cf6',
+                            pink: '#f72585'
+                        }
+                    },
+                    fontFamily: {
+                        orbitron: ['Orbitron', 'sans-serif'],
+                        rajdhani: ['Rajdhani', 'sans-serif'],
+                        sans: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
 
     <link rel="stylesheet" href="css/style.css">
 </head>
 
-<body>
+<body class="bg-cyber-black text-gray-200 font-sans selection:bg-cyber-cyan selection:text-black overflow-x-hidden relative">
 
-    <!-- 3D ANIMATED BACKGROUND -->
+    <!-- 3D ANIMATED MOVING BACKGROUND:
+         High-speed cyber cars with headlights & neon underglow on highway lanes,
+         Quadcopter drones with spinning rotor halos & sweeping searchlights,
+         Patrolling bipedal robots & mechs on catwalks,
+         6-Axis industrial robotic arms emitting lasers and spark showers -->
     <canvas id="bg3d"></canvas>
     <div id="bg3d-overlay"></div>
 
     <!-- FLOATING 3D BACKGROUND CAMERA DIRECTOR CONTROLLER -->
     <div class="cam-director-bar hidden sm:flex" id="camToolbar">
-        <span class="cam-label">
-            <span class="pulse-dot"></span> 3D Cam:
+        <span class="text-[10px] font-orbitron text-gray-400 uppercase tracking-widest px-2 flex items-center gap-1.5 border-r border-cyber-border mr-1">
+            <span class="w-2 h-2 rounded-full bg-cyber-cyan animate-pulse"></span> 3D Cam:
         </span>
         <button class="cam-btn active" onclick="setCameraView('cinematic', this)" title="Panoramic Arena View">
-            <i class="fa-solid fa-cube"></i> Arena
+            <i class="fa-solid fa-cube text-cyber-cyan"></i> Arena
         </button>
         <button class="cam-btn" onclick="setCameraView('drone', this)" title="Chase Aerial Drone">
-            <i class="fa-solid fa-helicopter"></i> Drone Cam
+            <i class="fa-solid fa-helicopter text-cyber-gold"></i> Drone Cam
         </button>
         <button class="cam-btn" onclick="setCameraView('rover', this)" title="Pursue Cyber Car Highway">
-            <i class="fa-solid fa-car-side"></i> Car Chase
+            <i class="fa-solid fa-car-side text-cyber-pink"></i> Car Chase
         </button>
         <button class="cam-btn" onclick="setCameraView('ground', this)" title="Laser Assembly Stations">
-            <i class="fa-solid fa-industry"></i> Laser Bay
+            <i class="fa-solid fa-industry text-cyber-neonGreen"></i> Laser Bay
         </button>
     </div>
 
-    <!-- ========== HEADER / NAVIGATION ========== -->
-    <header class="site-header" id="navbar">
-        <div class="header-inner">
-            <!-- Logo -->
-            <a href="#" class="logo-group">
-                <div class="logo-icon">
-                    <i class="fa-solid fa-gear"></i>
+    <!-- HEADER / NAVIGATION -->
+    <header class="fixed top-0 left-0 w-full z-50 bg-cyber-black/75 backdrop-blur-xl border-b border-cyber-border/70 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+
+            <a href="#" class="flex items-center gap-3.5 group">
+                <div class="w-12 h-12 rounded-xl bg-cyber-dark border-2 border-cyber-cyan flex items-center justify-center group-hover:bg-cyber-cyan transition-all duration-300 shadow-lg shadow-cyber-cyan/25 group-hover:scale-105">
+                    <span class="font-orbitron font-black text-cyber-cyan group-hover:text-black text-xl">123</span>
                 </div>
-                <div class="logo-text">
-                    <span class="logo-title">ROBO <span class="text-accent">TITANS</span></span>
-                    <span class="logo-sub">NRL 2026</span>
+                <div class="flex flex-col">
+                    <span class="font-orbitron font-black text-xl tracking-wider text-white flex items-center gap-2">
+                        ROBO TITANS <span class="text-cyber-gold text-[10px] font-bold border border-cyber-gold/50 px-2 py-0.5 rounded-full">NRL 2026</span>
+                    </span>
+                    <span class="text-[11px] font-rajdhani text-cyber-cyan tracking-widest uppercase font-semibold">Official Contender #123 &bull; Combat &amp; Autonomous Robotics</span>
                 </div>
             </a>
 
-            <!-- Nav Links -->
-            <nav class="main-nav" id="mainNav">
-                <a href="#" class="nav-link active">Home</a>
-                <a href="#about" class="nav-link">About</a>
-                <a href="#roster" class="nav-link">9 Titans</a>
-                <a href="#robot" class="nav-link">Bot Specs</a>
-                <a href="#timeline" class="nav-link">Timeline</a>
-                <a href="#arena" class="nav-link">Tactical Map</a>
-                <a href="#fanzone" class="nav-link">Contact</a>
+            <nav class="hidden lg:flex items-center gap-7 font-rajdhani text-lg font-bold tracking-wider">
+                <a href="#about" class="text-gray-300 hover:text-cyber-cyan transition-colors">Mission</a>
+                <a href="#roster" class="text-gray-300 hover:text-cyber-cyan transition-colors">9 Titans</a>
+                <a href="#robot" class="text-gray-300 hover:text-cyber-cyan transition-colors">Bot Specs</a>
+                <a href="#arena" class="text-gray-300 hover:text-cyber-cyan transition-colors">Tactical Map</a>
+                <a href="#matches" class="text-gray-300 hover:text-cyber-cyan transition-colors">Match Matrix</a>
+                <a href="#fanzone" class="text-gray-300 hover:text-cyber-cyan transition-colors">Fan Zone</a>
             </nav>
 
-            <!-- CTA + Sound -->
-            <div class="header-actions">
-                <button id="soundToggle" onclick="toggleAudio()" class="btn-sound" title="Toggle Sci-Fi SFX">
-                    <i class="fa-solid fa-volume-xmark" id="soundIcon"></i>
+            <div class="hidden md:flex items-center gap-4">
+                <button id="soundToggle" onclick="toggleAudio()" class="px-3.5 py-2 border border-cyber-border rounded-xl text-gray-400 hover:text-cyber-cyan hover:border-cyber-cyan transition flex items-center gap-2 text-xs font-orbitron" title="Toggle Synthesized Sci-Fi SFX">
+                    <i class="fa-solid fa-volume-xmark text-base" id="soundIcon"></i>
+                    <span class="hidden xl:inline">SFX</span>
                 </button>
-                <a href="#fanzone" onclick="cheerNow()" class="btn-register">
-                    Register Now <i class="fa-solid fa-arrow-right"></i>
+                <a href="#fanzone" onclick="cheerNow()" class="rounded-xl bg-gradient-to-r from-cyber-cyan to-cyber-blue text-black px-5 py-2.5 font-orbitron text-xs font-black hover:opacity-90 transition-all transform hover:scale-105 shadow-lg shadow-cyber-cyan/30 flex items-center gap-1.5">
+                    <i class="fa-solid fa-bolt"></i> Cheer #123
                 </a>
             </div>
 
-            <!-- Mobile Burger -->
-            <button class="mobile-menu-btn" id="menuBtn" onclick="toggleMobileMenu()">
+            <button class="lg:hidden text-2xl text-cyber-cyan p-2" id="menuBtn" onclick="toggleMobileMenu()">
                 <i class="fa-solid fa-bars-staggered"></i>
             </button>
         </div>
 
-        <!-- Mobile Menu -->
-        <div id="mobileMenu" class="mobile-menu hidden">
-            <a href="#" onclick="toggleMobileMenu()" class="mobile-link">Home</a>
-            <a href="#about" onclick="toggleMobileMenu()" class="mobile-link">About</a>
-            <a href="#roster" onclick="toggleMobileMenu()" class="mobile-link">9 Titans</a>
-            <a href="#robot" onclick="toggleMobileMenu()" class="mobile-link">Bot Specs</a>
-            <a href="#timeline" onclick="toggleMobileMenu()" class="mobile-link">Timeline</a>
-            <a href="#arena" onclick="toggleMobileMenu()" class="mobile-link">Tactical Map</a>
-            <a href="#fanzone" onclick="toggleMobileMenu()" class="mobile-link accent">Contact</a>
+        <div id="mobileMenu" class="hidden lg:hidden bg-cyber-dark/95 border-b border-cyber-cyan/30 px-6 py-6 flex-col gap-4 font-rajdhani text-xl font-semibold backdrop-blur-xl">
+            <a href="#about" onclick="toggleMobileMenu()" class="text-gray-200 hover:text-cyber-cyan block py-1">Mission Briefing</a>
+            <a href="#roster" onclick="toggleMobileMenu()" class="text-gray-200 hover:text-cyber-cyan block py-1">Roster (9 Titans)</a>
+            <a href="#robot" onclick="toggleMobileMenu()" class="text-gray-200 hover:text-cyber-cyan block py-1">TITAN-X123 Telemetry</a>
+            <a href="#arena" onclick="toggleMobileMenu()" class="text-gray-200 hover:text-cyber-cyan block py-1">Arena Map &amp; Strategy</a>
+            <a href="#matches" onclick="toggleMobileMenu()" class="text-gray-200 hover:text-cyber-cyan block py-1">Match Matrix</a>
+            <a href="#fanzone" onclick="toggleMobileMenu()" class="text-cyber-gold font-bold block py-1">Fan Zone &amp; Cheers</a>
         </div>
     </header>
 
-    <!-- ========== HERO SECTION ========== -->
-    <section class="hero-section" id="hero">
-        <div class="hero-grid">
-            <div class="hero-content">
-                <div class="hero-badge">
-                    <span class="badge-dot"></span>
-                    NATIONAL ROBOTICS LEAGUE 2026
-                </div>
+    <!-- HERO SECTION (High Transparency & Open View of 3D Background) -->
+    <section class="relative min-h-screen pt-32 pb-20 flex items-center justify-center">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center flex flex-col items-center">
 
-                <h1 class="hero-title">
-                    ROBO<br>
-                    <span class="text-accent">TITANS</span> <span class="hero-hash">#123</span>
-                </h1>
+            <!-- Status Pill -->
+            <div class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-cyber-dark/80 border border-cyber-cyan/60 mb-6 backdrop-blur-md shadow-lg shadow-cyber-cyan/15">
+                <span class="w-2.5 h-2.5 rounded-full bg-cyber-cyan animate-ping"></span>
+                <span class="text-xs font-orbitron text-cyber-cyan tracking-widest uppercase">National Robotics League 2026 &bull; Squad #123</span>
+                <span class="text-[10px] font-rajdhani bg-cyber-cyan/20 text-cyber-cyan px-2 py-0.5 rounded-full font-bold">ACTIVE TELEMETRY</span>
+            </div>
 
-                <p class="hero-tagline">
-                    <span>BUILD</span> <span class="divider">/</span>
-                    <span>COMPETE</span> <span class="divider">/</span>
-                    <span>INNOVATE</span>
+            <!-- Main Title with Gradient Glow -->
+            <h1 class="font-orbitron font-black text-4xl sm:text-6xl md:text-8xl tracking-tight text-white mb-2">
+                ROBO <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyber-cyan via-cyber-blue to-cyber-gold glow-text-cyan">TITANS</span>
+            </h1>
+            <p class="font-orbitron text-base sm:text-2xl text-cyber-gold tracking-widest font-bold mb-6 flex items-center justify-center gap-3">
+                <i class="fa-solid fa-shield-halved text-cyber-cyan"></i>
+                Official Contender #123 &bull; Heavyweight Division
+                <i class="fa-solid fa-shield-halved text-cyber-cyan"></i>
+            </p>
+
+            <p class="font-rajdhani text-xl sm:text-2xl text-gray-200 font-bold tracking-wider max-w-3xl mb-8 border-x-2 border-cyber-cyan/60 px-6 py-2.5 bg-cyber-dark/40 backdrop-blur-md rounded-lg">
+                "9 Titans. Multi-Domain Robotics. Total Arena Domination."
+            </p>
+
+            <!-- Quick 3D Camera Switcher in Hero -->
+            <div class="mb-10 flex flex-wrap items-center justify-center gap-2 text-xs font-orbitron">
+                <span class="text-gray-400 mr-2 flex items-center gap-1.5">
+                    <i class="fa-solid fa-video text-cyber-cyan"></i> 3D Camera Angle:
+                </span>
+                <button onclick="setCameraView('cinematic', this)" class="bg-cyber-dark/70 hover:bg-cyber-cyan hover:text-black border border-cyber-border text-gray-300 px-3.5 py-1.5 rounded-full transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-globe"></i> Arena
+                </button>
+                <button onclick="setCameraView('drone', this)" class="bg-cyber-dark/70 hover:bg-cyber-gold hover:text-black border border-cyber-border text-gray-300 px-3.5 py-1.5 rounded-full transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-helicopter"></i> Drone Cam
+                </button>
+                <button onclick="setCameraView('rover', this)" class="bg-cyber-dark/70 hover:bg-cyber-pink hover:text-black border border-cyber-border text-gray-300 px-3.5 py-1.5 rounded-full transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-car-side"></i> Cyber Car
+                </button>
+                <button onclick="setCameraView('ground', this)" class="bg-cyber-dark/70 hover:bg-cyber-neonGreen hover:text-black border border-cyber-border text-gray-300 px-3.5 py-1.5 rounded-full transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-industry"></i> Laser Bay
+                </button>
+            </div>
+
+            <!-- Countdown Timer Card -->
+            <div class="mb-10 w-full max-w-3xl glass-panel-glow rounded-2xl p-6 backdrop-blur-xl shadow-2xl">
+                <p class="font-orbitron text-xs text-cyber-cyan uppercase tracking-widest mb-4 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-stopwatch text-cyber-gold text-sm animate-pulse"></i> Countdown to NRL 2026 Championship Arena Clash
                 </p>
-
-                <p class="hero-description">
-                    India's premier national-level robotics competition for students. Design, build, and battle real-world challenges and showcase your innovation on a grand stage.
-                </p>
-
-                <div class="hero-meta">
-                    <div class="meta-item">
-                        <i class="fa-regular fa-calendar"></i>
-                        <span>15 – 17 MARCH 2026</span>
+                <div class="grid grid-cols-4 gap-2 sm:gap-4 text-center">
+                    <div class="bg-cyber-dark/80 border border-cyber-border/80 p-3.5 rounded-xl shadow-inner">
+                        <span id="days" class="font-orbitron text-2xl sm:text-4xl font-black text-cyber-cyan">25</span>
+                        <span class="block text-[10px] sm:text-xs font-rajdhani text-gray-400 uppercase tracking-wider mt-1 font-semibold">Days</span>
                     </div>
-                    <div class="meta-item">
-                        <i class="fa-solid fa-location-dot"></i>
-                        <span>Navi Mumbai, India</span>
+                    <div class="bg-cyber-dark/80 border border-cyber-border/80 p-3.5 rounded-xl shadow-inner">
+                        <span id="hours" class="font-orbitron text-2xl sm:text-4xl font-black text-white">14</span>
+                        <span class="block text-[10px] sm:text-xs font-rajdhani text-gray-400 uppercase tracking-wider mt-1 font-semibold">Hours</span>
                     </div>
-                </div>
-
-                <div class="hero-buttons">
-                    <a href="#fanzone" class="btn-primary" onclick="if (window.playTechSound) window.playTechSound()">
-                        Register Your Team <i class="fa-solid fa-arrow-right"></i>
-                    </a>
-                    <a href="#robot" class="btn-secondary" onclick="if (window.playTechSound) window.playTechSound()">
-                        <i class="fa-solid fa-download"></i> Download Brochure
-                    </a>
+                    <div class="bg-cyber-dark/80 border border-cyber-border/80 p-3.5 rounded-xl shadow-inner">
+                        <span id="minutes" class="font-orbitron text-2xl sm:text-4xl font-black text-white">38</span>
+                        <span class="block text-[10px] sm:text-xs font-rajdhani text-gray-400 uppercase tracking-wider mt-1 font-semibold">Minutes</span>
+                    </div>
+                    <div class="bg-cyber-dark/80 border border-cyber-border/80 p-3.5 rounded-xl shadow-inner">
+                        <span id="seconds" class="font-orbitron text-2xl sm:text-4xl font-black text-cyber-gold">42</span>
+                        <span class="block text-[10px] sm:text-xs font-rajdhani text-gray-400 uppercase tracking-wider mt-1 font-semibold">Seconds</span>
+                    </div>
                 </div>
             </div>
 
-            <div class="hero-visual">
-                <img src="images/hero-robot.jpg" alt="TITAN-X123 Combat Robot" class="hero-robot-img">
-                <div class="hero-visual-overlay"></div>
-            </div>
-
-            <div class="hero-side-text">
-                <span>REAL PROBLEMS.</span>
-                <span>SMARTER</span>
-                <span>SOLUTIONS.</span>
+            <!-- Action Buttons -->
+            <div class="flex flex-wrap items-center justify-center gap-4">
+                <a href="#roster" onclick="if (window.playTechSound) window.playTechSound()" class="rounded-xl bg-gradient-to-r from-cyber-cyan to-cyber-blue text-black px-8 py-3.5 font-orbitron font-extrabold text-xs sm:text-sm tracking-wider hover:opacity-90 transition-all transform hover:-translate-y-0.5 shadow-lg shadow-cyber-cyan/35 flex items-center gap-2">
+                    <i class="fa-solid fa-users text-base"></i> Meet the 9 Titans
+                </a>
+                <a href="#robot" onclick="if (window.playTechSound) window.playTechSound()" class="rounded-xl bg-cyber-dark/70 border border-cyber-cyan/60 text-white px-8 py-3.5 font-orbitron font-extrabold text-xs sm:text-sm tracking-wider hover:border-cyber-cyan hover:bg-cyber-card transition-all flex items-center gap-2">
+                    <i class="fa-solid fa-robot text-cyber-cyan"></i> Bot Telemetry &amp; Specs
+                </a>
+                <a href="#arena" onclick="if (window.playTechSound) window.playTechSound()" class="rounded-xl bg-cyber-dark/70 border border-cyber-gold/60 text-cyber-gold px-8 py-3.5 font-orbitron font-extrabold text-xs sm:text-sm tracking-wider hover:border-cyber-gold hover:bg-cyber-gold/10 transition-all flex items-center gap-2">
+                    <i class="fa-solid fa-map-location-dot text-cyber-gold"></i> Tactical Arena Map
+                </a>
             </div>
         </div>
     </section>
 
-    <!-- ========== STATS BAR ========== -->
-    <section class="stats-bar">
-        <div class="stats-inner">
-            <div class="stat-item">
-                <div class="stat-icon"><i class="fa-solid fa-users"></i></div>
-                <div class="stat-info">
-                    <span class="stat-number counter" data-target="1000">0</span><span class="stat-plus">+</span>
-                    <span class="stat-label">Participants</span>
-                </div>
-            </div>
-            <div class="stat-divider"></div>
-            <div class="stat-item">
-                <div class="stat-icon"><i class="fa-solid fa-people-group"></i></div>
-                <div class="stat-info">
-                    <span class="stat-number counter" data-target="200">0</span><span class="stat-plus">+</span>
-                    <span class="stat-label">Teams</span>
-                </div>
-            </div>
-            <div class="stat-divider"></div>
-            <div class="stat-item">
-                <div class="stat-icon"><i class="fa-solid fa-indian-rupee-sign"></i></div>
-                <div class="stat-info">
-                    <span class="stat-number">₹10L+</span>
-                    <span class="stat-label">Prize Pool</span>
-                </div>
-            </div>
-            <div class="stat-divider"></div>
-            <div class="stat-item">
-                <div class="stat-icon"><i class="fa-solid fa-building-columns"></i></div>
-                <div class="stat-info">
-                    <span class="stat-number counter" data-target="50">0</span><span class="stat-plus">+</span>
-                    <span class="stat-label">Colleges</span>
-                </div>
-            </div>
-        </div>
-    </section>
+    <!-- MISSION BRIEFING & CORE METRICS -->
+    <section id="about" class="py-20 relative bg-cyber-black/60 backdrop-blur-sm border-y border-cyber-border/70">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
 
-    <!-- ========== ABOUT SECTION ========== -->
-    <section id="about" class="section-about">
-        <div class="container">
-            <div class="about-grid">
-                <div class="about-content">
-                    <span class="section-tag">
-                        <i class="fa-solid fa-shield-halved"></i> ABOUT ROBO TITANS
-                    </span>
-                    <h2 class="section-title">
-                        More Than a<br><span class="text-accent">Competition</span>
+                <div class="lg:col-span-7 space-y-6">
+                    <div class="inline-flex items-center gap-2 text-cyber-cyan font-orbitron text-xs font-bold tracking-widest uppercase">
+                        <i class="fa-solid fa-shield-halved"></i> Mission Briefing &bull; Team #123
+                    </div>
+                    <h2 class="font-orbitron font-black text-3xl sm:text-4xl text-white">
+                        The force behind <span class="text-cyber-cyan">Robo Titans #123</span>
                     </h2>
-                    <p class="about-text">
-                        Robo Titans #123 is a national-level robotics competition for undergraduate and postgraduate students. It's a platform to learn, innovate, and showcase real-world problem-solving through robotics.
+                    <p class="text-gray-300 leading-relaxed text-base sm:text-lg font-rajdhani">
+                        Team Robo Titans (#123) is a premier combat robotics force entering the National Robotics League (NRL) 2026. Built on heavy-metal precision engineering and strategic analytics, our 9-person squad operates with synchronized pit-crew discipline.
                     </p>
-                    <p class="about-text-secondary">
-                        Led by Captain & Driver <strong>Rayan Dobani</strong> alongside Vice Captain & Human Player <strong>Aakhya Patki</strong>, our bot TITAN-X123 features a high-RPM vertical kinetic drum engineered by Master Builder <strong>Krinza Mardani</strong>, hardware telemetry from Technical Head <strong>Bhuvi Dubey</strong> and Tech Specialists <strong>Aradhya Dandey</strong> & <strong>Yati Agrawal</strong>, predictive scouting by <strong>Gaurav Chauhan</strong>, and live media outreach by <strong>Dhruvi Pote</strong> & <strong>Shreesha</strong>.
+                    <p class="text-gray-400 text-sm sm:text-base leading-relaxed">
+                        Led by Captain &amp; Driver <strong class="text-white">Rayan Dobani</strong> alongside Vice Captain &amp; Human Player <strong class="text-white">Aakhya Patki</strong>, our bot TITAN-X123 features a high-RPM vertical kinetic drum engineered by Master Builder <strong class="text-white">kinza Mardani</strong>, hardware telemetry from Technical Head <strong class="text-white">Bhuvi Dubey</strong> and Tech Specialists <strong class="text-white">Aradhya pandey</strong> &amp; <strong class="text-white">Yati Agrawal</strong>, predictive scouting by <strong class="text-white">Gaurav Chauhan</strong>, and live media outreach by <strong class="text-white">Druhii Pote</strong> &amp; <strong class="text-white">shreesha Jangam</strong>.
                     </p>
 
-                    <div class="about-features">
-                        <div class="feature-item">
-                            <i class="fa-solid fa-graduation-cap"></i>
-                            <span>Hands-on Learning</span>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
+                        <div class="glass-panel p-3.5 rounded-xl text-center hover:border-cyber-cyan transition">
+                            <i class="fa-solid fa-gamepad text-cyber-cyan text-xl mb-1 block"></i>
+                            <span class="font-orbitron text-[11px] text-white font-bold block">Captain &amp; Driver</span>
+                            <span class="text-[10px] text-gray-400 font-rajdhani font-semibold">Rayan Dobani</span>
                         </div>
-                        <div class="feature-item">
-                            <i class="fa-solid fa-puzzle-piece"></i>
-                            <span>Real-World Challenges</span>
+                        <div class="glass-panel p-3.5 rounded-xl text-center hover:border-cyber-gold transition">
+                            <i class="fa-solid fa-user-ninja text-cyber-gold text-xl mb-1 block"></i>
+                            <span class="font-orbitron text-[11px] text-white font-bold block">Vice Captain</span>
+                            <span class="text-[10px] text-gray-400 font-rajdhani font-semibold">Aakhya Patki</span>
                         </div>
-                        <div class="feature-item">
-                            <i class="fa-solid fa-building"></i>
-                            <span>Industry Exposure</span>
+                        <div class="glass-panel p-3.5 rounded-xl text-center hover:border-cyber-orange transition">
+                            <i class="fa-solid fa-wrench text-cyber-orange text-xl mb-1 block"></i>
+                            <span class="font-orbitron text-[11px] text-white font-bold block">Master Builder</span>
+                            <span class="text-[10px] text-gray-400 font-rajdhani font-semibold">kinza Mardani</span>
                         </div>
-                        <div class="feature-item">
-                            <i class="fa-solid fa-handshake"></i>
-                            <span>Network with Innovators</span>
+                        <div class="glass-panel p-3.5 rounded-xl text-center hover:border-cyber-neonGreen transition">
+                            <i class="fa-solid fa-microchip text-cyber-neonGreen text-xl mb-1 block"></i>
+                            <span class="font-orbitron text-[11px] text-white font-bold block">Technical Head</span>
+                            <span class="text-[10px] text-gray-400 font-rajdhani font-semibold">Bhuvi Dubey</span>
                         </div>
                     </div>
-
-                    <a href="#roster" class="btn-learn-more">
-                        Learn More <i class="fa-solid fa-arrow-right"></i>
-                    </a>
                 </div>
 
-                <div class="about-media">
-                    <div class="about-image-wrapper">
-                        <img src="images/about-robot.jpg" alt="Robot Assembly Workshop" class="about-img">
-                        <div class="play-button">
-                            <i class="fa-solid fa-play"></i>
-                        </div>
-                        <div class="watch-label">Watch Event Highlights</div>
+                <div class="lg:col-span-5 grid grid-cols-2 gap-4">
+                    <div class="glass-panel p-6 rounded-2xl hover:border-cyber-cyan transition duration-300 group">
+                        <div class="font-orbitron text-3xl sm:text-4xl font-black text-cyber-cyan mb-1"><span class="counter" data-target="9">0</span></div>
+                        <div class="font-rajdhani text-sm font-bold uppercase text-white">Titan Members</div>
+                        <div class="text-xs text-cyber-cyan/70 mt-1">100% Pit Crew Alignment</div>
                     </div>
-                    <div class="about-quote">
-                        <p>Engineering today for a smarter tomorrow.</p>
+                    <div class="glass-panel p-6 rounded-2xl hover:border-cyber-gold transition duration-300 group">
+                        <div class="font-orbitron text-3xl sm:text-4xl font-black text-cyber-gold mb-1"><span class="counter" data-target="13500">0</span> RPM</div>
+                        <div class="font-rajdhani text-sm font-bold uppercase text-white">Vertical Spinner</div>
+                        <div class="text-xs text-cyber-gold/70 mt-1">Dual Tooth Blade Speed</div>
+                    </div>
+                    <div class="glass-panel p-6 rounded-2xl hover:border-cyber-neonGreen transition duration-300 group">
+                        <div class="font-orbitron text-3xl sm:text-4xl font-black text-cyber-neonGreen mb-1"><span class="counter" data-target="250">0</span> lbs</div>
+                        <div class="font-rajdhani text-sm font-bold uppercase text-white">Heavyweight Class</div>
+                        <div class="text-xs text-cyber-neonGreen/70 mt-1">NRL Weight Limit Maxed</div>
+                    </div>
+                    <div class="glass-panel p-6 rounded-2xl hover:border-cyber-orange transition duration-300 group">
+                        <div class="font-orbitron text-3xl sm:text-4xl font-black text-cyber-orange mb-1"><span class="counter" data-target="1800">0</span>+</div>
+                        <div class="font-rajdhani text-sm font-bold uppercase text-white">Pit &amp; CAD Hours</div>
+                        <div class="text-xs text-cyber-orange/70 mt-1">NRL 2026 Preparation</div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ========== TIMELINE SECTION ========== -->
-    <section id="timeline" class="section-timeline">
-        <div class="container">
-            <div class="timeline-header">
-                <div>
-                    <span class="section-tag"><i class="fa-regular fa-calendar"></i> IMPORTANT DATES</span>
-                    <h2 class="section-title">Competition <span class="text-accent">Timeline</span></h2>
-                </div>
-                <a href="#" class="view-all-link">View Full Timeline <i class="fa-solid fa-arrow-right"></i></a>
+    <!-- ROSTER OF 9 TITANS -->
+    <section id="roster" class="py-24 relative bg-cyber-black/50 backdrop-blur-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <span class="text-cyber-cyan font-orbitron text-xs tracking-widest uppercase border border-cyber-cyan/30 px-3 py-1 rounded-full">Squad Command Structure</span>
+                <h2 class="font-orbitron font-black text-3xl sm:text-5xl text-white mt-3">Meet the <span class="text-cyber-cyan">9 Titans</span></h2>
+                <p class="text-gray-400 font-rajdhani text-lg mt-2">Filter by specialization to inspect our leadership, engineering fab, and strategic units.</p>
             </div>
 
-            <div class="timeline-track">
-                <div class="timeline-line"></div>
-                <div class="timeline-item">
-                    <div class="timeline-node">
-                        <div class="node-icon"><i class="fa-regular fa-calendar-check"></i></div>
-                        <div class="node-connector active"></div>
-                    </div>
-                    <div class="timeline-date">01 JAN 2026</div>
-                    <div class="timeline-label">Registrations Open</div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-node">
-                        <div class="node-icon"><i class="fa-solid fa-robot"></i></div>
-                        <div class="node-connector active"></div>
-                    </div>
-                    <div class="timeline-date">15 FEB 2026</div>
-                    <div class="timeline-label">Registrations Close</div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-node">
-                        <div class="node-icon"><i class="fa-solid fa-paper-plane"></i></div>
-                        <div class="node-connector"></div>
-                    </div>
-                    <div class="timeline-date">20 FEB 2026</div>
-                    <div class="timeline-label">Submission Deadline</div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-node">
-                        <div class="node-icon"><i class="fa-solid fa-users"></i></div>
-                        <div class="node-connector"></div>
-                    </div>
-                    <div class="timeline-date">05 MAR 2026</div>
-                    <div class="timeline-label">Shortlisted Teams Announced</div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-node highlight">
-                        <div class="node-icon"><i class="fa-solid fa-trophy"></i></div>
-                        <div class="node-connector"></div>
-                    </div>
-                    <div class="timeline-date accent">15–17 MAR 2026</div>
-                    <div class="timeline-label">Grand Finale (On-site)</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ========== ROSTER OF 9 TITANS ========== -->
-    <section id="roster" class="section-roster">
-        <div class="container">
-            <div class="section-header-center">
-                <span class="section-tag"><i class="fa-solid fa-users-gear"></i> SQUAD COMMAND STRUCTURE</span>
-                <h2 class="section-title">Meet the <span class="text-accent">9 Titans</span></h2>
-                <p class="section-subtitle">Filter by specialization to inspect our leadership, engineering fab, and strategic units.</p>
+            <div class="flex flex-wrap justify-center gap-3 mb-12 font-orbitron text-xs" id="rosterFilters">
+                <button onclick="filterRoster('all', this)" class="roster-btn active bg-cyber-cyan text-black px-5 py-2.5 rounded-xl font-bold transition">All 9 Titans</button>
+                <button onclick="filterRoster('leadership', this)" class="roster-btn glass-panel text-gray-300 hover:border-cyber-cyan px-5 py-2.5 rounded-xl transition">Leadership</button>
+                <button onclick="filterRoster('tech', this)" class="roster-btn glass-panel text-gray-300 hover:border-cyber-cyan px-5 py-2.5 rounded-xl transition">Tech &amp; Build</button>
+                <button onclick="filterRoster('media', this)" class="roster-btn glass-panel text-gray-300 hover:border-cyber-cyan px-5 py-2.5 rounded-xl transition">Strategy &amp; Media</button>
             </div>
 
-            <div class="filter-bar" id="rosterFilters">
-                <button onclick="filterRoster('all', this)" class="filter-btn active">All 9 Titans</button>
-                <button onclick="filterRoster('leadership', this)" class="filter-btn">Leadership</button>
-                <button onclick="filterRoster('tech', this)" class="filter-btn">Tech & Build</button>
-                <button onclick="filterRoster('media', this)" class="filter-btn">Strategy & Media</button>
-            </div>
-
-            <div class="roster-grid" id="rosterGrid">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="rosterGrid">
 
                 <!-- 1. Rayan Dobani -->
-                <div class="roster-card captain" data-role="leadership">
-                    <div class="card-badge captain-badge">Captain & Driver</div>
-                    <div class="card-header">
-                        <div class="avatar avatar-cyan">RD</div>
+                <div class="roster-card glass-panel p-6 rounded-2xl border-2 border-cyber-cyan relative group" data-role="leadership">
+                    <div class="absolute top-4 right-4 bg-cyber-cyan text-black font-orbitron text-[10px] font-black px-2.5 py-0.5 rounded-full shadow-md">Captain &amp; Driver</div>
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-16 h-16 rounded-2xl bg-cyber-dark border-2 border-cyber-cyan flex items-center justify-center text-cyber-cyan text-2xl font-orbitron font-black shadow-lg shadow-cyber-cyan/30 group-hover:scale-110 transition-transform">RD</div>
                         <div>
-                            <span class="card-role">Primary Transmitter Control</span>
-                            <h3 class="card-name">Rayan Dobani</h3>
-                            <span class="card-position">Team Captain & Robot Driver</span>
+                            <span class="text-xs font-orbitron text-cyber-cyan block">Primary Transmitter Control</span>
+                            <h3 class="font-orbitron font-black text-xl text-white">Rayan Dobani</h3>
+                            <span class="text-xs font-rajdhani text-gray-400 font-semibold">Team Captain &amp; Robot Driver</span>
                         </div>
                     </div>
-                    <p class="card-desc">Controls TITAN-X123 inside the NRL combat arena, handling high-speed drift maneuvers, wedge geometry angles, and kinetic drum contact timing.</p>
-                    <div class="card-tags">
-                        <span class="tag tag-cyan">Arena Driver</span>
-                        <span class="tag">Team Captain</span>
-                        <span class="tag tag-accent">Tactical Lead</span>
+                    <p class="text-gray-300 text-sm font-rajdhani mb-4 leading-relaxed">Controls TITAN-X123 inside the NRL combat arena, handling high-speed drift maneuvers, wedge geometry angles, and kinetic drum contact timing.</p>
+                    <div class="flex flex-wrap gap-2 text-[10px] font-orbitron">
+                        <span class="bg-cyber-dark text-cyber-cyan border border-cyber-cyan/30 px-2.5 py-1 rounded-lg">Arena Driver</span>
+                        <span class="bg-cyber-dark text-white border border-cyber-border px-2.5 py-1 rounded-lg">Team Captain</span>
+                        <span class="bg-cyber-dark text-cyber-gold border border-cyber-gold/30 px-2.5 py-1 rounded-lg">Tactical Lead</span>
                     </div>
                 </div>
 
                 <!-- 2. Aakhya Patki -->
-                <div class="roster-card" data-role="leadership">
-                    <div class="card-badge accent-badge">Vice Captain</div>
-                    <div class="card-header">
-                        <div class="avatar avatar-accent">AP</div>
+                <div class="roster-card glass-panel p-6 rounded-2xl border border-cyber-border hover:border-cyber-gold relative group" data-role="leadership">
+                    <div class="absolute top-4 right-4 bg-cyber-gold/20 text-cyber-gold border border-cyber-gold/40 font-orbitron text-[10px] font-black px-2.5 py-0.5 rounded-full">Vice Captain</div>
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-16 h-16 rounded-2xl bg-cyber-dark border-2 border-cyber-gold flex items-center justify-center text-cyber-gold text-2xl font-orbitron font-black shadow-lg shadow-cyber-gold/20 group-hover:scale-110 transition-transform">AP</div>
                         <div>
-                            <span class="card-role accent">Human Player & Pit Co-ord</span>
-                            <h3 class="card-name">Aakhya Patki</h3>
-                            <span class="card-position">Vice Captain & Human Player</span>
+                            <span class="text-xs font-orbitron text-cyber-gold block">Human Player &amp; Pit Co-ord</span>
+                            <h3 class="font-orbitron font-black text-xl text-white">Aakhya Patki</h3>
+                            <span class="text-xs font-rajdhani text-gray-400 font-semibold">Vice Captain &amp; Human Player</span>
                         </div>
                     </div>
-                    <p class="card-desc">Manages human player arena slot activations, un-sticking protocol requests with NRL referees, and live driver communication headsets.</p>
-                    <div class="card-tags">
-                        <span class="tag tag-accent">Human Player</span>
-                        <span class="tag">Vice Captain</span>
-                        <span class="tag tag-cyan">Pit Coordinator</span>
+                    <p class="text-gray-300 text-sm font-rajdhani mb-4 leading-relaxed">Manages human player arena slot activations, un-sticking protocol requests with NRL referees, and live driver communication headsets.</p>
+                    <div class="flex flex-wrap gap-2 text-[10px] font-orbitron">
+                        <span class="bg-cyber-dark text-cyber-gold border border-cyber-gold/30 px-2.5 py-1 rounded-lg">Human Player</span>
+                        <span class="bg-cyber-dark text-white border border-cyber-border px-2.5 py-1 rounded-lg">Vice Captain</span>
+                        <span class="bg-cyber-dark text-cyber-cyan border border-cyber-cyan/30 px-2.5 py-1 rounded-lg">Pit Coordinator</span>
                     </div>
                 </div>
 
                 <!-- 3. Gaurav Chauhan -->
-                <div class="roster-card" data-role="media">
-                    <div class="card-badge green-badge">Strategist</div>
-                    <div class="card-header">
-                        <div class="avatar avatar-green">GC</div>
+                <div class="roster-card glass-panel p-6 rounded-2xl border border-cyber-border hover:border-cyber-neonGreen relative group" data-role="media">
+                    <div class="absolute top-4 right-4 bg-cyber-neonGreen/20 text-cyber-neonGreen border border-cyber-neonGreen/40 font-orbitron text-[10px] font-black px-2.5 py-0.5 rounded-full">Strategist</div>
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-16 h-16 rounded-2xl bg-cyber-dark border-2 border-cyber-neonGreen flex items-center justify-center text-cyber-neonGreen text-2xl font-orbitron font-black shadow-lg shadow-cyber-neonGreen/20 group-hover:scale-110 transition-transform">GC</div>
                         <div>
-                            <span class="card-role green">Match Analytics & Scouting</span>
-                            <h3 class="card-name">Gaurav Chauhan</h3>
-                            <span class="card-position">Team Strategist & Statistics Lead</span>
+                            <span class="text-xs font-orbitron text-cyber-neonGreen block">Match Analytics &amp; Scouting</span>
+                            <h3 class="font-orbitron font-black text-xl text-white">Gaurav Chauhan</h3>
+                            <span class="text-xs font-rajdhani text-gray-400 font-semibold">Team Strategist &amp; Statistics Lead</span>
                         </div>
                     </div>
-                    <p class="card-desc">Calculates opponent weapon tip speeds, wedge ground-clearances, and judge scoring parameters to prepare tailored victory playbooks.</p>
-                    <div class="card-tags">
-                        <span class="tag tag-green">Match Statistics</span>
-                        <span class="tag">Scouting Lead</span>
-                        <span class="tag tag-accent">Tactical Models</span>
+                    <p class="text-gray-300 text-sm font-rajdhani mb-4 leading-relaxed">Calculates opponent weapon tip speeds, wedge ground-clearances, and judge scoring parameters to prepare tailored victory playbooks.</p>
+                    <div class="flex flex-wrap gap-2 text-[10px] font-orbitron">
+                        <span class="bg-cyber-dark text-cyber-neonGreen border border-cyber-neonGreen/30 px-2.5 py-1 rounded-lg">Match Statistics</span>
+                        <span class="bg-cyber-dark text-white border border-cyber-border px-2.5 py-1 rounded-lg">Scouting Lead</span>
+                        <span class="bg-cyber-dark text-cyber-gold border border-cyber-gold/30 px-2.5 py-1 rounded-lg">Tactical Models</span>
                     </div>
                 </div>
 
-                <!-- 4. Krinza Mardani -->
-                <div class="roster-card" data-role="tech">
-                    <div class="card-badge orange-badge">Master Builder</div>
-                    <div class="card-header">
-                        <div class="avatar avatar-orange">KM</div>
+                <!-- 4. kinza Mardani -->
+                <div class="roster-card glass-panel p-6 rounded-2xl border border-cyber-border hover:border-cyber-orange relative group" data-role="tech">
+                    <div class="absolute top-4 right-4 bg-cyber-orange/20 text-cyber-orange border border-cyber-orange/40 font-orbitron text-[10px] font-black px-2.5 py-0.5 rounded-full">Master Builder</div>
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-16 h-16 rounded-2xl bg-cyber-dark border-2 border-cyber-orange flex items-center justify-center text-cyber-orange text-2xl font-orbitron font-black shadow-lg shadow-cyber-orange/20 group-hover:scale-110 transition-transform">KM</div>
                         <div>
-                            <span class="card-role orange">Hardware & CNC Fabrication</span>
-                            <h3 class="card-name">Krinza Mardani</h3>
-                            <span class="card-position">Master Builder & Mechanical Lead</span>
+                            <span class="text-xs font-orbitron text-cyber-orange block">Hardware &amp; CNC Fabrication</span>
+                            <h3 class="font-orbitron font-black text-xl text-white">kinza Mardani</h3>
+                            <span class="text-xs font-rajdhani text-gray-400 font-semibold">Master Builder &amp; Mechanical Lead</span>
                         </div>
                     </div>
-                    <p class="card-desc">Designs CAD 3D assemblies, mills 7075 aircraft aluminum chassis rails, and welds titanium armor bulkheads for maximum deflection.</p>
-                    <div class="card-tags">
-                        <span class="tag tag-orange">CAD / CAM Milling</span>
-                        <span class="tag">Titanium Welding</span>
-                        <span class="tag tag-cyan">Assembly Fab</span>
+                    <p class="text-gray-300 text-sm font-rajdhani mb-4 leading-relaxed">Designs CAD 3D assemblies, mills 7075 aircraft aluminum chassis rails, and welds titanium armor bulkheads for maximum deflection.</p>
+                    <div class="flex flex-wrap gap-2 text-[10px] font-orbitron">
+                        <span class="bg-cyber-dark text-cyber-orange border border-cyber-orange/30 px-2.5 py-1 rounded-lg">CAD / CAM Milling</span>
+                        <span class="bg-cyber-dark text-white border border-cyber-border px-2.5 py-1 rounded-lg">Titanium Welding</span>
+                        <span class="bg-cyber-dark text-cyber-cyan border border-cyber-cyan/30 px-2.5 py-1 rounded-lg">Assembly Fab</span>
                     </div>
                 </div>
 
                 <!-- 5. Bhuvi Dubey -->
-                <div class="roster-card" data-role="tech">
-                    <div class="card-badge cyan-badge">Tech Head</div>
-                    <div class="card-header">
-                        <div class="avatar avatar-cyan">BD</div>
+                <div class="roster-card glass-panel p-6 rounded-2xl border border-cyber-border hover:border-cyber-cyan relative group" data-role="tech">
+                    <div class="absolute top-4 right-4 bg-cyber-cyan/20 text-cyber-cyan border border-cyber-cyan/40 font-orbitron text-[10px] font-black px-2.5 py-0.5 rounded-full">Tech Head</div>
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-16 h-16 rounded-2xl bg-cyber-dark border-2 border-cyber-cyan flex items-center justify-center text-cyber-cyan text-2xl font-orbitron font-black shadow-lg shadow-cyber-cyan/20 group-hover:scale-110 transition-transform">BD</div>
                         <div>
-                            <span class="card-role">Electronics & VESC Lead</span>
-                            <h3 class="card-name">Bhuvi Dubey</h3>
-                            <span class="card-position">Technical Head</span>
+                            <span class="text-xs font-orbitron text-cyber-cyan block">Electronics &amp; VESC Lead</span>
+                            <h3 class="font-orbitron font-black text-xl text-white">Bhuvi Dubey</h3>
+                            <span class="text-xs font-rajdhani text-gray-400 font-semibold">Technical Head</span>
                         </div>
                     </div>
-                    <p class="card-desc">Leads electronics integration, 12S brushless motor tuning, CAN-bus bus-mastering, and high-current power distribution to speed controllers.</p>
-                    <div class="card-tags">
-                        <span class="tag tag-cyan">Technical Head</span>
-                        <span class="tag">VESC Firmware</span>
-                        <span class="tag tag-green">Power Systems</span>
+                    <p class="text-gray-300 text-sm font-rajdhani mb-4 leading-relaxed">Leads electronics integration, 12S brushless motor tuning, CAN-bus bus-mastering, and high-current power distribution to speed controllers.</p>
+                    <div class="flex flex-wrap gap-2 text-[10px] font-orbitron">
+                        <span class="bg-cyber-dark text-cyber-cyan border border-cyber-cyan/30 px-2.5 py-1 rounded-lg">Technical Head</span>
+                        <span class="bg-cyber-dark text-white border border-cyber-border px-2.5 py-1 rounded-lg">VESC Firmware</span>
+                        <span class="bg-cyber-dark text-cyber-neonGreen border border-cyber-neonGreen/30 px-2.5 py-1 rounded-lg">Power Systems</span>
                     </div>
                 </div>
 
-                <!-- 6. Aradhya Dandey -->
-                <div class="roster-card" data-role="tech">
-                    <div class="card-badge purple-badge">Tech Specialist</div>
-                    <div class="card-header">
-                        <div class="avatar avatar-purple">AD</div>
+                <!-- 6. Aradhya pandey -->
+                <div class="roster-card glass-panel p-6 rounded-2xl border border-cyber-border hover:border-cyber-purple relative group" data-role="tech">
+                    <div class="absolute top-4 right-4 bg-cyber-purple/20 text-cyber-purple border border-cyber-purple/40 font-orbitron text-[10px] font-black px-2.5 py-0.5 rounded-full">Tech Specialist</div>
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-16 h-16 rounded-2xl bg-cyber-dark border-2 border-cyber-purple flex items-center justify-center text-cyber-purple text-2xl font-orbitron font-black shadow-lg shadow-cyber-purple/20 group-hover:scale-110 transition-transform">AD</div>
                         <div>
-                            <span class="card-role purple">Circuits & Battery Safety</span>
-                            <h3 class="card-name">Aradhya Dandey</h3>
-                            <span class="card-position">Technical Team Specialist</span>
+                            <span class="text-xs font-orbitron text-cyber-purple block">Circuits &amp; Battery Safety</span>
+                            <h3 class="font-orbitron font-black text-xl text-white">Aradhya pandey</h3>
+                            <span class="text-xs font-rajdhani text-gray-400 font-semibold">Technical Team Specialist</span>
                         </div>
                     </div>
-                    <p class="card-desc">Engineers shock-damped LiPo battery containment cages and quick-release high-voltage safety switches for rapid pit turnaround.</p>
-                    <div class="card-tags">
-                        <span class="tag tag-purple">Tech Team</span>
-                        <span class="tag">LiPo Harnessing</span>
-                        <span class="tag tag-cyan">Circuit Fuses</span>
+                    <p class="text-gray-300 text-sm font-rajdhani mb-4 leading-relaxed">Engineers shock-damped LiPo battery containment cages and quick-release high-voltage safety switches for rapid pit turnaround.</p>
+                    <div class="flex flex-wrap gap-2 text-[10px] font-orbitron">
+                        <span class="bg-cyber-dark text-cyber-purple border border-cyber-purple/30 px-2.5 py-1 rounded-lg">Tech Team</span>
+                        <span class="bg-cyber-dark text-white border border-cyber-border px-2.5 py-1 rounded-lg">LiPo Harnessing</span>
+                        <span class="bg-cyber-dark text-cyber-cyan border border-cyber-cyan/30 px-2.5 py-1 rounded-lg">Circuit Fuses</span>
                     </div>
                 </div>
 
                 <!-- 7. Yati Agrawal -->
-                <div class="roster-card" data-role="tech">
-                    <div class="card-badge cyan-badge">Tech Specialist</div>
-                    <div class="card-header">
-                        <div class="avatar avatar-cyan">YA</div>
+                <div class="roster-card glass-panel p-6 rounded-2xl border border-cyber-border hover:border-cyber-cyan relative group" data-role="tech">
+                    <div class="absolute top-4 right-4 bg-cyber-cyan/20 text-cyber-cyan border border-cyber-cyan/40 font-orbitron text-[10px] font-black px-2.5 py-0.5 rounded-full">Tech Specialist</div>
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-16 h-16 rounded-2xl bg-cyber-dark border-2 border-cyber-cyan flex items-center justify-center text-cyber-cyan text-2xl font-orbitron font-black shadow-lg shadow-cyber-cyan/20 group-hover:scale-110 transition-transform">YA</div>
                         <div>
-                            <span class="card-role">Embedded Code & Gyro</span>
-                            <h3 class="card-name">Yati Agrawal</h3>
-                            <span class="card-position">Technical Team Specialist</span>
+                            <span class="text-xs font-orbitron text-cyber-cyan block">Embedded Code &amp; Gyro</span>
+                            <h3 class="font-orbitron font-black text-xl text-white">Yati Agrawal</h3>
+                            <span class="text-xs font-rajdhani text-gray-400 font-semibold">Technical Team Specialist</span>
                         </div>
                     </div>
-                    <p class="card-desc">Programs failsafe control routines, gyro auto-inversion driving logic, and wireless Bluetooth/CAN telemetry links to pit monitors.</p>
-                    <div class="card-tags">
-                        <span class="tag tag-cyan">Tech Team</span>
-                        <span class="tag">Gyro Invert</span>
-                        <span class="tag tag-accent">Telemetry Feed</span>
+                    <p class="text-gray-300 text-sm font-rajdhani mb-4 leading-relaxed">Programs failsafe control routines, gyro auto-inversion driving logic, and wireless Bluetooth/CAN telemetry links to pit monitors.</p>
+                    <div class="flex flex-wrap gap-2 text-[10px] font-orbitron">
+                        <span class="bg-cyber-dark text-cyber-cyan border border-cyber-cyan/30 px-2.5 py-1 rounded-lg">Tech Team</span>
+                        <span class="bg-cyber-dark text-white border border-cyber-border px-2.5 py-1 rounded-lg">Gyro Invert</span>
+                        <span class="bg-cyber-dark text-cyber-gold border border-cyber-gold/30 px-2.5 py-1 rounded-lg">Telemetry Feed</span>
                     </div>
                 </div>
 
-                <!-- 8. Dhruvi Pote -->
-                <div class="roster-card" data-role="media">
-                    <div class="card-badge pink-badge">Social Lead</div>
-                    <div class="card-header">
-                        <div class="avatar avatar-pink">DP</div>
+                <!-- 8. Druhii Pote -->
+                <div class="roster-card glass-panel p-6 rounded-2xl border border-cyber-border hover:border-cyber-pink relative group" data-role="media">
+                    <div class="absolute top-4 right-4 bg-cyber-pink/20 text-cyber-pink border border-cyber-pink/40 font-orbitron text-[10px] font-black px-2.5 py-0.5 rounded-full">Social Lead</div>
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-16 h-16 rounded-2xl bg-cyber-dark border-2 border-cyber-pink flex items-center justify-center text-cyber-pink text-2xl font-orbitron font-black shadow-lg shadow-cyber-pink/20 group-hover:scale-110 transition-transform">DP</div>
                         <div>
-                            <span class="card-role pink">Media Streaming & Content</span>
-                            <h3 class="card-name">Dhruvi Pote</h3>
-                            <span class="card-position">Social Media Manager</span>
+                            <span class="text-xs font-orbitron text-cyber-pink block">Media Streaming &amp; Content</span>
+                            <h3 class="font-orbitron font-black text-xl text-white">Druhii Pote</h3>
+                            <span class="text-xs font-rajdhani text-gray-400 font-semibold">Social Media Manager</span>
                         </div>
                     </div>
-                    <p class="card-desc">Directs online arena live streaming, match replay analytics, press updates, and high-energy social engagement for Robo Titans #123.</p>
-                    <div class="card-tags">
-                        <span class="tag tag-pink">Social Manager</span>
-                        <span class="tag">Match Broadcast</span>
-                        <span class="tag tag-accent">Digital Press</span>
+                    <p class="text-gray-300 text-sm font-rajdhani mb-4 leading-relaxed">Directs online arena live streaming, match replay analytics, press updates, and high-energy social engagement for Robo Titans #123.</p>
+                    <div class="flex flex-wrap gap-2 text-[10px] font-orbitron">
+                        <span class="bg-cyber-dark text-cyber-pink border border-cyber-pink/30 px-2.5 py-1 rounded-lg">Social Manager</span>
+                        <span class="bg-cyber-dark text-white border border-cyber-border px-2.5 py-1 rounded-lg">Match Broadcast</span>
+                        <span class="bg-cyber-dark text-cyber-gold border border-cyber-gold/30 px-2.5 py-1 rounded-lg">Digital Press</span>
                     </div>
                 </div>
 
-                <!-- 9. Shreesha -->
-                <div class="roster-card" data-role="media">
-                    <div class="card-badge accent-badge">Community Lead</div>
-                    <div class="card-header">
-                        <div class="avatar avatar-accent">SH</div>
+                <!-- 9. shreesha Jangam -->
+                <div class="roster-card glass-panel p-6 rounded-2xl border border-cyber-border hover:border-cyber-gold relative group" data-role="media">
+                    <div class="absolute top-4 right-4 bg-cyber-gold/20 text-cyber-gold border border-cyber-gold/40 font-orbitron text-[10px] font-black px-2.5 py-0.5 rounded-full">Community Lead</div>
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-16 h-16 rounded-2xl bg-cyber-dark border-2 border-cyber-gold flex items-center justify-center text-cyber-gold text-2xl font-orbitron font-black shadow-lg shadow-cyber-gold/20 group-hover:scale-110 transition-transform">SH</div>
                         <div>
-                            <span class="card-role accent">Community & Sponsor Desk</span>
-                            <h3 class="card-name">Shreesha</h3>
-                            <span class="card-position">Social Media Manager</span>
+                            <span class="text-xs font-orbitron text-cyber-gold block">Community &amp; Sponsor Desk</span>
+                            <h3 class="font-orbitron font-black text-xl text-white">shreesha Jangam</h3>
+                            <span class="text-xs font-rajdhani text-gray-400 font-semibold">Social Media Manager</span>
                         </div>
                     </div>
-                    <p class="card-desc">Manages team sponsor partnerships, pit interview logs, fan arena voting desks, and live audience interaction during match days.</p>
-                    <div class="card-tags">
-                        <span class="tag tag-accent">Social Manager</span>
-                        <span class="tag">Fan Relations</span>
-                        <span class="tag tag-cyan">Pit Vlogs</span>
+                    <p class="text-gray-300 text-sm font-rajdhani mb-4 leading-relaxed">Manages team sponsor partnerships, pit interview logs, fan arena voting desks, and live audience interaction during match days.</p>
+                    <div class="flex flex-wrap gap-2 text-[10px] font-orbitron">
+                        <span class="bg-cyber-dark text-cyber-gold border border-cyber-gold/30 px-2.5 py-1 rounded-lg">Social Manager</span>
+                        <span class="bg-cyber-dark text-white border border-cyber-border px-2.5 py-1 rounded-lg">Fan Relations</span>
+                        <span class="bg-cyber-dark text-cyber-cyan border border-cyber-cyan/30 px-2.5 py-1 rounded-lg">Pit Vlogs</span>
                     </div>
                 </div>
+
             </div>
         </div>
     </section>
 
-    <!-- ========== BOT SPECS ========== -->
-    <section id="robot" class="section-specs">
-        <div class="container">
-            <div class="section-header-center">
-                <span class="section-tag"><i class="fa-solid fa-robot"></i> HEAVYWEIGHT 250 LB COMBAT BOT</span>
-                <h2 class="section-title">Bot Specs: <span class="text-accent">TITAN-X123</span></h2>
-                <p class="section-subtitle">Precision engineered by Krinza Mardani • Electronics & tuning by Bhuvi, Aradhya & Yati.</p>
+    <!-- BOT SPECS & INTERACTIVE THROTTLE BENCH -->
+    <section id="robot" class="py-24 relative bg-cyber-dark/40 backdrop-blur-sm border-t border-cyber-border/70">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-cyber-cyan font-orbitron text-xs tracking-widest uppercase border border-cyber-cyan/30 px-3 py-1 rounded-full">Heavyweight 250 lb Combat Bot</span>
+                <h2 class="font-orbitron font-black text-3xl sm:text-5xl text-white mt-3">Bot Specs: <span class="text-cyber-cyan">TITAN-X123</span></h2>
+                <p class="text-gray-400 font-rajdhani text-lg mt-2">Precision engineered by kinza Mardani &bull; Electronics &amp; tuning by Bhuvi, Aradhya &amp; Yati.</p>
             </div>
 
-            <div class="specs-grid">
-                <div class="specs-visual">
-                    <div class="specs-header-bar">
-                        <span class="specs-status">
-                            <span class="pulse-dot green"></span> CAN-Bus Telemetry: Active
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                <div class="lg:col-span-7 glass-panel p-6 rounded-2xl relative overflow-hidden shadow-2xl">
+                    <div class="flex items-center justify-between border-b border-cyber-border/80 pb-3 mb-4">
+                        <span class="text-xs font-orbitron text-cyber-cyan flex items-center gap-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-cyber-neonGreen animate-pulse"></span> CAN-Bus Telemetry: Active
                         </span>
-                        <span class="specs-driver">Driver: Rayan Dobani</span>
+                        <span class="text-xs font-orbitron text-gray-400">Driver: Rayan Dobani</span>
                     </div>
 
-                    <!-- Weapon Drum Animation -->
-                    <div class="weapon-display">
-                        <div class="drum-container">
-                            <div class="drum-outer">
-                                <div id="weaponBlade" class="drum-blade"></div>
-                                <div class="drum-center">
-                                    <span>TITAN</span>
-                                    <span class="drum-hash">#123</span>
+                    <!-- Weapon Drum Interactive Animation Bench -->
+                    <div class="w-full h-80 sm:h-96 rounded-xl bg-cyber-black/85 border border-cyber-border relative flex items-center justify-center p-4 overflow-hidden">
+                        <div class="relative z-10 text-center flex flex-col items-center">
+                            <div class="w-56 h-56 sm:w-64 sm:h-64 rounded-full border-2 border-dashed border-cyber-cyan/60 flex items-center justify-center relative animate-pulse-glow">
+                                <div id="weaponBlade" class="w-48 h-12 bg-gradient-to-r from-cyber-cyan via-white to-cyber-gold rounded-full transition-all duration-300 transform shadow-xl shadow-cyber-cyan/50 flex items-center justify-between px-3">
+                                    <div class="w-5 h-5 bg-black rounded-full border border-cyber-cyan"></div>
+                                    <div class="w-5 h-5 bg-black rounded-full border border-cyber-cyan"></div>
+                                </div>
+                                <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                                    <div class="w-28 h-28 bg-cyber-dark/95 rounded-full border-2 border-cyber-cyan flex flex-col items-center justify-center text-cyber-cyan font-orbitron text-xs font-black shadow-inner">
+                                        <span>TITAN</span>
+                                        <span class="text-cyber-gold text-sm font-extrabold">#123</span>
+                                    </div>
                                 </div>
                             </div>
-                            <p class="drum-label">Vertical Kinetic Drum Assembly</p>
+                            <p class="text-[11px] font-orbitron text-gray-400 mt-4 tracking-widest uppercase">Vertical Kinetic Drum Assembly</p>
                         </div>
-                        <div class="weapon-stat weapon-stat-left">
-                            <div>Weapon RPM: <span id="rpmVal" class="text-accent">13,500</span></div>
-                            <div>Kinetic Energy: <span id="joulesVal" class="text-gold">58.4 kJ</span></div>
+
+                        <div class="absolute bottom-3 left-3 bg-cyber-dark/90 border border-cyber-border p-3 rounded-xl text-[11px] font-orbitron">
+                            <div class="text-gray-400">Weapon RPM: <span id="rpmVal" class="text-cyber-cyan font-bold">13,500</span></div>
+                            <div class="text-gray-400">Kinetic Energy: <span id="joulesVal" class="text-cyber-gold font-bold">58.4 kJ</span></div>
                         </div>
-                        <div class="weapon-stat weapon-stat-right">
-                            <div>Armor: <span class="text-white">AR500 Titanium</span></div>
-                            <div>Driver: <span class="text-accent">Rayan Dobani</span></div>
+                        <div class="absolute bottom-3 right-3 bg-cyber-dark/90 border border-cyber-border p-3 rounded-xl text-[11px] font-orbitron text-right">
+                            <div class="text-gray-400">Armor: <span class="text-white font-bold">AR500 Titanium</span></div>
+                            <div class="text-gray-400">Driver: <span class="text-cyber-cyan font-bold">Rayan Dobani</span></div>
                         </div>
                     </div>
 
-                    <!-- Throttle Slider -->
-                    <div class="throttle-panel">
-                        <div class="throttle-header">
-                            <span><i class="fa-solid fa-gauge-high text-accent"></i> Throttle Simulator:</span>
-                            <span id="throttlePercent" class="text-accent">100% Max RPM</span>
+                    <!-- Throttle Slider Control -->
+                    <div class="mt-6 bg-cyber-dark/80 p-4 rounded-xl border border-cyber-border space-y-3">
+                        <div class="flex justify-between items-center text-xs font-orbitron">
+                            <span class="text-gray-300 uppercase"><i class="fa-solid fa-gauge-high text-cyber-cyan mr-1"></i> Throttle Simulator:</span>
+                            <span id="throttlePercent" class="text-cyber-cyan font-bold">100% Max RPM</span>
                         </div>
-                        <input type="range" id="throttleSlider" min="0" max="13500" value="13500" step="500" class="throttle-slider">
-                        <div class="throttle-labels">
+                        <input type="range" id="throttleSlider" min="0" max="13500" value="13500" step="500" class="w-full accent-cyber-cyan cursor-pointer">
+                        <div class="flex justify-between text-[10px] font-orbitron text-gray-500">
                             <span>0 RPM (Idle)</span>
                             <span>6,750 RPM (Mid)</span>
                             <span>13,500 RPM (Max Impact)</span>
@@ -553,46 +536,46 @@
                     </div>
                 </div>
 
-                <div class="specs-data">
-                    <div class="telemetry-card">
-                        <h3 class="telemetry-title">
+                <div class="lg:col-span-5 space-y-6">
+                    <div class="glass-panel p-6 rounded-2xl space-y-4">
+                        <h3 class="font-orbitron font-bold text-lg text-white border-b border-cyber-border pb-2 flex items-center justify-between">
                             <span>Hardware Telemetry Ratings</span>
-                            <i class="fa-solid fa-bolt text-accent"></i>
+                            <i class="fa-solid fa-bolt text-cyber-gold"></i>
                         </h3>
-                        <div class="telemetry-bar">
-                            <div class="bar-label"><span>AWD Drive Torque (Rayan's Transmitter)</span><span class="text-accent">96%</span></div>
-                            <div class="bar-track"><div class="bar-fill fill-cyan" style="width: 96%"></div></div>
+                        <div>
+                            <div class="flex justify-between text-xs font-orbitron text-gray-300 mb-1"><span>AWD Drive Torque (Rayan's Transmitter)</span><span class="text-cyber-cyan font-bold">96%</span></div>
+                            <div class="w-full h-2.5 bg-cyber-dark rounded-full overflow-hidden"><div class="h-full bg-cyber-cyan rounded-full" style="width: 96%"></div></div>
                         </div>
-                        <div class="telemetry-bar">
-                            <div class="bar-label"><span>Titanium Armor Integrity (Krinza's Fab)</span><span class="text-gold">98%</span></div>
-                            <div class="bar-track"><div class="bar-fill fill-gold" style="width: 98%"></div></div>
+                        <div>
+                            <div class="flex justify-between text-xs font-orbitron text-gray-300 mb-1"><span>Titanium Armor Integrity (kinza's Fab)</span><span class="text-cyber-gold font-bold">98%</span></div>
+                            <div class="w-full h-2.5 bg-cyber-dark rounded-full overflow-hidden"><div class="h-full bg-cyber-gold rounded-full" style="width: 98%"></div></div>
                         </div>
-                        <div class="telemetry-bar">
-                            <div class="bar-label"><span>VESC Current Density (Bhuvi's Code)</span><span class="text-green">95%</span></div>
-                            <div class="bar-track"><div class="bar-fill fill-green" style="width: 95%"></div></div>
+                        <div>
+                            <div class="flex justify-between text-xs font-orbitron text-gray-300 mb-1"><span>VESC Current Density (Bhuvi's Code)</span><span class="text-cyber-neonGreen font-bold">95%</span></div>
+                            <div class="w-full h-2.5 bg-cyber-dark rounded-full overflow-hidden"><div class="h-full bg-cyber-neonGreen rounded-full" style="width: 95%"></div></div>
                         </div>
-                        <div class="telemetry-bar">
-                            <div class="bar-label"><span>LiPo Thermal Isolation (Aradhya & Yati)</span><span class="text-purple">100%</span></div>
-                            <div class="bar-track"><div class="bar-fill fill-purple" style="width: 100%"></div></div>
+                        <div>
+                            <div class="flex justify-between text-xs font-orbitron text-gray-300 mb-1"><span>LiPo Thermal Isolation (Aradhya &amp; Yati)</span><span class="text-cyber-purple font-bold">100%</span></div>
+                            <div class="w-full h-2.5 bg-cyber-dark rounded-full overflow-hidden"><div class="h-full bg-cyber-purple rounded-full" style="width: 100%"></div></div>
                         </div>
                     </div>
 
-                    <div class="spec-tiles">
-                        <div class="spec-tile">
-                            <span class="tile-label text-accent">Chassis Material</span>
-                            <span class="tile-value">AR500 & 7075-T6 Billet</span>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="glass-panel p-4 rounded-xl">
+                            <span class="text-[11px] font-orbitron text-cyber-cyan block">Chassis Material</span>
+                            <span class="font-rajdhani font-bold text-base text-white">AR500 &amp; 7075-T6 Billet</span>
                         </div>
-                        <div class="spec-tile">
-                            <span class="tile-label text-gold">Motors & ESC</span>
-                            <span class="tile-value">4x Brushless 12S VESC</span>
+                        <div class="glass-panel p-4 rounded-xl">
+                            <span class="text-[11px] font-orbitron text-cyber-gold block">Motors &amp; ESC</span>
+                            <span class="font-rajdhani font-bold text-base text-white">4x Brushless 12S VESC</span>
                         </div>
-                        <div class="spec-tile">
-                            <span class="tile-label text-orange">Battery Plant</span>
-                            <span class="tile-value">12S 6200mAh LiPo</span>
+                        <div class="glass-panel p-4 rounded-xl">
+                            <span class="text-[11px] font-orbitron text-cyber-orange block">Battery Plant</span>
+                            <span class="font-rajdhani font-bold text-base text-white">12S 6200mAh LiPo</span>
                         </div>
-                        <div class="spec-tile">
-                            <span class="tile-label text-green">Weapon Blade</span>
-                            <span class="tile-value">45lb Hardened Steel Drum</span>
+                        <div class="glass-panel p-4 rounded-xl">
+                            <span class="text-[11px] font-orbitron text-cyber-neonGreen block">Weapon Blade</span>
+                            <span class="font-rajdhani font-bold text-base text-white">45lb Hardened Steel Drum</span>
                         </div>
                     </div>
                 </div>
@@ -600,66 +583,75 @@
         </div>
     </section>
 
-    <!-- ========== TACTICAL ARENA ========== -->
-    <section id="arena" class="section-arena">
-        <div class="container">
-            <div class="section-header-center">
-                <span class="section-tag"><i class="fa-solid fa-map-location-dot"></i> SCOUTING PORTAL BY GAURAV CHAUHAN</span>
-                <h2 class="section-title">Tactical Arena <span class="text-accent">Scout Map</span></h2>
-                <p class="section-subtitle">Visual positioning map for Driver Rayan Dobani & Human Player Aakhya Patki.</p>
+    <!-- TACTICAL ARENA SCOUT MAP -->
+    <section id="arena" class="py-24 relative bg-cyber-black/50 backdrop-blur-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-cyber-gold font-orbitron text-xs tracking-widest uppercase border border-cyber-gold/30 px-3 py-1 rounded-full">Scouting Portal by Gaurav Chauhan</span>
+                <h2 class="font-orbitron font-black text-3xl sm:text-5xl text-white mt-3">Tactical Arena <span class="text-cyber-gold">Scout Map</span></h2>
+                <p class="text-gray-400 font-rajdhani text-lg mt-2">Visual positioning map for Driver Rayan Dobani &amp; Human Player Aakhya Patki.</p>
             </div>
 
-            <div class="arena-grid">
-                <div class="arena-map-panel">
-                    <div class="arena-toolbar">
-                        <span class="arena-title"><i class="fa-solid fa-map-location-dot"></i> NRL Combat Arena Grid (30ft x 30ft Steel Box)</span>
-                        <div class="arena-presets">
-                            <button onclick="setTacticalPreset('rush', this)" class="tactics-btn btn-cyan">Rush</button>
-                            <button onclick="setTacticalPreset('grind', this)" class="tactics-btn btn-gold">Pin & Grind</button>
-                            <button onclick="setTacticalPreset('counter', this)" class="tactics-btn btn-orange">Counter</button>
-                            <button onclick="setTacticalPreset('evade', this)" class="tactics-btn btn-green">Evade</button>
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                <div class="lg:col-span-8 glass-panel p-6 rounded-2xl">
+                    <div class="flex items-center justify-between border-b border-cyber-border pb-3 mb-4">
+                        <span class="font-orbitron text-xs text-cyber-gold flex items-center gap-2">
+                            <i class="fa-solid fa-map-location-dot"></i> NRL Combat Arena Grid (30ft x 30ft Steel Box)
+                        </span>
+                        <div class="flex gap-2">
+                            <button onclick="setTacticalPreset('rush', this)" class="tactics-btn text-[11px] font-orbitron bg-cyber-dark border border-cyber-cyan text-cyber-cyan px-3 py-1 rounded-lg hover:bg-cyber-cyan hover:text-black transition">Rush</button>
+                            <button onclick="setTacticalPreset('grind', this)" class="tactics-btn text-[11px] font-orbitron bg-cyber-dark border border-cyber-gold text-cyber-gold px-3 py-1 rounded-lg hover:bg-cyber-gold hover:text-black transition">Pin &amp; Grind</button>
+                            <button onclick="setTacticalPreset('counter', this)" class="tactics-btn text-[11px] font-orbitron bg-cyber-dark border border-cyber-orange text-cyber-orange px-3 py-1 rounded-lg hover:bg-cyber-orange hover:text-black transition">Counter</button>
+                            <button onclick="setTacticalPreset('evade', this)" class="tactics-btn text-[11px] font-orbitron bg-cyber-dark border border-cyber-neonGreen text-cyber-neonGreen px-3 py-1 rounded-lg hover:bg-cyber-neonGreen hover:text-black transition">Evade</button>
                         </div>
                     </div>
 
-                    <div class="arena-canvas">
-                        <div class="arena-grid-bg"></div>
-                        <!-- Hazards -->
-                        <div class="arena-hazard" style="top: 25%; left: 25%;">
-                            <span>Saw</span>
+                    <!-- Arena 2D Grid Visualizer with Animated Vector Bot -->
+                    <div class="relative w-full h-80 sm:h-96 bg-cyber-black/90 border-2 border-cyber-border rounded-xl overflow-hidden flex items-center justify-center">
+                        <div class="absolute inset-0 bg-[radial-gradient(#1c2a4f_1px,transparent_1px)] [background-size:24px_24px] opacity-40"></div>
+
+                        <!-- Arena Hazards -->
+                        <div class="absolute top-1/4 left-1/4 w-12 h-12 border-2 border-dashed border-cyber-orange/60 rounded-full flex items-center justify-center animate-spin" style="animation-duration: 6s;">
+                            <span class="text-[9px] font-orbitron text-cyber-orange">Saw</span>
                         </div>
-                        <div class="arena-hazard" style="bottom: 25%; right: 25%;">
-                            <span>Saw</span>
+                        <div class="absolute bottom-1/4 right-1/4 w-12 h-12 border-2 border-dashed border-cyber-orange/60 rounded-full flex items-center justify-center animate-spin" style="animation-duration: 6s;">
+                            <span class="text-[9px] font-orbitron text-cyber-orange">Saw</span>
                         </div>
-                        <div class="arena-pit">Pit Trap</div>
-                        <div class="arena-label-bottom">Driver Pod: Rayan Dobani</div>
-                        <div class="arena-label-top">Human Player Slot: Aakhya Patki</div>
-                        <!-- Bot Vector -->
-                        <div id="botVector" class="bot-vector" style="top: 52%; left: 48%;">
+                        <div class="absolute top-3 right-3 w-16 h-16 bg-red-950/40 border border-red-500/50 rounded-xl flex items-center justify-center">
+                            <span class="text-[9px] font-orbitron text-red-400 font-bold">Pit Trap</span>
+                        </div>
+                        <div class="absolute bottom-2 left-1/2 -translate-x-1/2 bg-cyber-cyan/20 border border-cyber-cyan px-3 py-1 rounded-full text-[10px] font-orbitron text-cyber-cyan">Driver Pod: Rayan Dobani</div>
+                        <div class="absolute top-2 left-1/2 -translate-x-1/2 bg-cyber-gold/20 border border-cyber-gold px-3 py-1 rounded-full text-[10px] font-orbitron text-cyber-gold">Human Player Slot: Aakhya Patki</div>
+
+                        <!-- Vector Bot #123 -->
+                        <div id="botVector" class="absolute w-14 h-14 rounded-full border-2 border-cyber-cyan bg-cyber-dark/95 flex flex-col items-center justify-center text-cyber-cyan font-orbitron text-[10px] font-bold shadow-lg shadow-cyber-cyan/40 transition-all duration-700" style="top: 52%; left: 48%;">
                             <div class="radar-pulse-ring"></div>
                             <span>#123</span>
-                            <i class="fa-solid fa-arrow-up bounce-icon"></i>
+                            <i class="fa-solid fa-arrow-up text-[10px] animate-bounce"></i>
                         </div>
                     </div>
                 </div>
 
-                <div class="arena-sidebar">
-                    <div class="tactical-card">
-                        <div class="tactical-header">
-                            <div class="tactical-avatar">GC</div>
+                <div class="lg:col-span-4 space-y-4">
+                    <div class="glass-panel border-cyber-neonGreen/60 p-6 rounded-2xl">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="w-10 h-10 rounded-xl bg-cyber-dark border border-cyber-neonGreen flex items-center justify-center font-orbitron text-cyber-neonGreen text-xs font-bold">GC</div>
                             <div>
-                                <h4>Gaurav's Tactical Breakdown</h4>
-                                <span>Lead Strategist & Scouting Analytics</span>
+                                <h4 class="font-orbitron font-bold text-white text-sm">Gaurav's Tactical Breakdown</h4>
+                                <span class="text-xs text-cyber-neonGreen font-rajdhani font-semibold">Lead Strategist &amp; Scouting Analytics</span>
                             </div>
                         </div>
-                        <p id="tacticalDesc">"Aggressive rush: Driver Rayan Dobani executes immediate arena-center seizure within 2.8 seconds, denying opposing wedge angle leverage and dictating line-of-engagement."</p>
+                        <p id="tacticalDesc" class="text-gray-300 text-sm font-rajdhani leading-relaxed">
+                            "Aggressive rush: Driver Rayan Dobani executes immediate arena-center seizure within 2.8 seconds, denying opposing wedge angle leverage and dictating line-of-engagement."
+                        </p>
                     </div>
 
-                    <div class="rules-card">
-                        <h4>NRL Arena Rule Recalibration</h4>
-                        <ul>
-                            <li><i class="fa-solid fa-check"></i> Ref un-stick calls managed by Aakhya Patki</li>
-                            <li><i class="fa-solid fa-check"></i> Active weapon requirement maxed at 13,500 RPM</li>
-                            <li><i class="fa-solid fa-check"></i> Judge scoring: 6pt Damage, 3pt Aggression, 2pt Control</li>
+                    <div class="glass-panel p-5 rounded-2xl space-y-3">
+                        <h4 class="font-orbitron text-xs text-cyber-gold font-bold uppercase">NRL Arena Rule Recalibration</h4>
+                        <ul class="text-xs text-gray-300 space-y-2 font-rajdhani">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-cyber-cyan"></i> Ref un-stick calls managed by Aakhya Patki</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-cyber-cyan"></i> Active weapon requirement maxed at 13,500 RPM</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-cyber-cyan"></i> Judge scoring: 6pt Damage, 3pt Aggression, 2pt Control</li>
                         </ul>
                     </div>
                 </div>
@@ -667,62 +659,53 @@
         </div>
     </section>
 
-    <!-- ========== NRL MATCH MATRIX ========== -->
-    <section id="matches" class="section-matches">
-        <div class="container">
-            <div class="matches-header">
+    <!-- NRL 2026 MATCH MATRIX -->
+    <section id="matches" class="py-24 relative bg-cyber-dark/40 backdrop-blur-sm border-y border-cyber-border/70">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
                 <div>
-                    <span class="section-tag"><i class="fa-solid fa-trophy"></i> CHAMPIONSHIP SCHEDULE</span>
-                    <h2 class="section-title">NRL 2026 <span class="text-accent">Match Matrix</span></h2>
+                    <span class="text-cyber-cyan font-orbitron text-xs tracking-widest uppercase border border-cyber-cyan/30 px-3 py-1 rounded-full">Championship Schedule</span>
+                    <h2 class="font-orbitron font-black text-3xl sm:text-5xl text-white mt-3">NRL 2026 <span class="text-cyber-cyan">Match Matrix</span></h2>
                 </div>
-                <div class="filter-bar" id="matchFilters">
-                    <button onclick="filterMatches('all', this)" class="filter-btn active">All Matches</button>
-                    <button onclick="filterMatches('qualifier', this)" class="filter-btn">Qualifiers</button>
-                    <button onclick="filterMatches('playoff', this)" class="filter-btn">Finals / Playoffs</button>
+                <div class="flex flex-wrap gap-2 font-orbitron text-xs" id="matchFilters">
+                    <button onclick="filterMatches('all', this)" class="m-filter-btn active bg-cyber-cyan text-black px-4 py-2 rounded-xl font-bold transition">All Matches</button>
+                    <button onclick="filterMatches('qualifier', this)" class="m-filter-btn glass-panel text-gray-300 hover:border-cyber-cyan px-4 py-2 rounded-xl transition">Qualifiers</button>
+                    <button onclick="filterMatches('playoff', this)" class="m-filter-btn glass-panel text-gray-300 hover:border-cyber-cyan px-4 py-2 rounded-xl transition">Finals / Playoffs</button>
                 </div>
             </div>
 
-            <div class="match-table-wrapper">
-                <table class="match-table">
+            <div class="glass-panel rounded-2xl overflow-x-auto shadow-2xl">
+                <table class="w-full text-left border-collapse min-w-[700px]">
                     <thead>
-                        <tr>
-                            <th>Phase</th>
-                            <th>Rival Bot / Opponent</th>
-                            <th>Driver & Pit Tactical Call</th>
-                            <th>Gaurav's Win Ratio</th>
-                            <th class="text-right">Match Status</th>
+                        <tr class="bg-cyber-dark/90 border-b border-cyber-border text-xs font-orbitron text-gray-400 uppercase">
+                            <th class="p-4">Phase</th>
+                            <th class="p-4">Rival Bot / Opponent</th>
+                            <th class="p-4">Driver &amp; Pit Tactical Call</th>
+                            <th class="p-4">Gaurav's Win Ratio</th>
+                            <th class="p-4 text-right">Match Status</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr class="match-row" data-category="playoff">
-                            <td><span class="phase-badge phase-finals">Finals</span></td>
-                            <td class="opponent-cell">
-                                <div class="opponent-icon pink">#01</div>
-                                Team CyberSledge (Hammer Bot)
-                            </td>
-                            <td class="tactic-cell">Rayan wedge-charge; neutralize top armor hammer</td>
-                            <td class="ratio-cell text-accent">88% Probability</td>
-                            <td class="text-right"><span class="status-badge status-upcoming"><span class="ping-dot"></span> Upcoming</span></td>
+                    <tbody class="divide-y divide-cyber-border/60 font-rajdhani text-base">
+                        <tr class="match-row hover:bg-cyber-dark/60 transition" data-category="playoff">
+                            <td class="p-4"><span class="bg-cyber-pink/20 text-cyber-pink border border-cyber-pink/40 px-2.5 py-0.5 text-xs font-orbitron rounded-full">Finals</span></td>
+                            <td class="p-4 font-bold text-white"><div class="flex items-center gap-3"><div class="w-8 h-8 rounded-lg bg-cyber-dark border border-cyber-border flex items-center justify-center font-orbitron text-xs text-cyber-pink">#01</div>Team CyberSledge (Hammer Bot)</div></td>
+                            <td class="p-4 text-gray-300 text-sm">Rayan wedge-charge; neutralize top armor hammer</td>
+                            <td class="p-4 font-orbitron text-cyber-cyan">88% Probability</td>
+                            <td class="p-4 text-right"><span class="inline-flex items-center gap-1.5 text-xs font-orbitron text-cyber-gold bg-cyber-gold/10 border border-cyber-gold/30 px-3 py-1 rounded-full"><span class="w-2 h-2 rounded-full bg-cyber-gold animate-ping"></span> Upcoming</span></td>
                         </tr>
-                        <tr class="match-row" data-category="playoff">
-                            <td><span class="phase-badge phase-semi">Semi-Final</span></td>
-                            <td class="opponent-cell">
-                                <div class="opponent-icon cyan">#08</div>
-                                ApexCrusher (Horizontal Spinner)
-                            </td>
-                            <td class="tactic-cell">Frontal titanium wedge deflection by Rayan</td>
-                            <td class="ratio-cell text-green">Victory</td>
-                            <td class="text-right"><span class="status-badge status-win"><i class="fa-solid fa-trophy"></i> Win (KO 0:42)</span></td>
+                        <tr class="match-row hover:bg-cyber-dark/60 transition" data-category="playoff">
+                            <td class="p-4"><span class="bg-cyber-cyan/20 text-cyber-cyan border border-cyber-cyan/40 px-2.5 py-0.5 text-xs font-orbitron rounded-full">Semi-Final</span></td>
+                            <td class="p-4 font-bold text-white"><div class="flex items-center gap-3"><div class="w-8 h-8 rounded-lg bg-cyber-dark border border-cyber-border flex items-center justify-center font-orbitron text-xs text-cyber-cyan">#08</div>ApexCrusher (Horizontal Spinner)</div></td>
+                            <td class="p-4 text-gray-300 text-sm">Frontal titanium wedge deflection by Rayan</td>
+                            <td class="p-4 font-orbitron text-cyber-neonGreen">Victory</td>
+                            <td class="p-4 text-right"><span class="inline-flex items-center gap-1 text-xs font-orbitron text-cyber-neonGreen bg-cyber-neonGreen/10 border border-cyber-neonGreen/30 px-3 py-1 rounded-full"><i class="fa-solid fa-trophy"></i> Win (KO 0:42)</span></td>
                         </tr>
-                        <tr class="match-row" data-category="qualifier">
-                            <td><span class="phase-badge phase-qualifier">Qualifier R2</span></td>
-                            <td class="opponent-cell">
-                                <div class="opponent-icon">#22</div>
-                                IronClaw Lifter
-                            </td>
-                            <td class="tactic-cell">Aakhya feeder alert: spin weapon to max energy</td>
-                            <td class="ratio-cell text-green">Victory</td>
-                            <td class="text-right"><span class="status-badge status-win"><i class="fa-solid fa-trophy"></i> Win (3-0 Judges)</span></td>
+                        <tr class="match-row hover:bg-cyber-dark/60 transition" data-category="qualifier">
+                            <td class="p-4"><span class="bg-gray-800 text-gray-300 border border-gray-600 px-2.5 py-0.5 text-xs font-orbitron rounded-full">Qualifier R2</span></td>
+                            <td class="p-4 font-bold text-white"><div class="flex items-center gap-3"><div class="w-8 h-8 rounded-lg bg-cyber-dark border border-cyber-border flex items-center justify-center font-orbitron text-xs text-gray-400">#22</div>IronClaw Lifter</div></td>
+                            <td class="p-4 text-gray-300 text-sm">Aakhya feeder alert: spin weapon to max energy</td>
+                            <td class="p-4 font-orbitron text-cyber-neonGreen">Victory</td>
+                            <td class="p-4 text-right"><span class="inline-flex items-center gap-1 text-xs font-orbitron text-cyber-neonGreen bg-cyber-neonGreen/10 border border-cyber-neonGreen/30 px-3 py-1 rounded-full"><i class="fa-solid fa-trophy"></i> Win (3-0 Judges)</span></td>
                         </tr>
                     </tbody>
                 </table>
@@ -730,137 +713,72 @@
         </div>
     </section>
 
-    <!-- ========== CTA SECTION ========== -->
-    <section class="section-cta">
-        <div class="container">
-            <div class="cta-grid">
-                <div class="cta-content">
-                    <span class="cta-tag">READY TO BUILD</span>
-                    <h2 class="cta-title">THE FUTURE?</h2>
-                    <p class="cta-text">Join Robo Titans #123 and be a part of India's biggest robotics league.</p>
-                    <div class="cta-buttons">
-                        <a href="#fanzone" class="btn-primary">Register Now <i class="fa-solid fa-arrow-right"></i></a>
-                        <a href="#" class="btn-secondary"><i class="fa-solid fa-download"></i> Download Brochure</a>
-                    </div>
-                </div>
-                <div class="cta-side">
-                    <span>INNOVATE</span>
-                    <span>COMPETE</span>
-                    <span class="text-accent">MAKE AN IMPACT</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ========== FAN ZONE ========== -->
-    <section id="fanzone" class="section-fanzone">
-        <div class="container">
-            <div class="section-header-center">
-                <span class="section-tag"><i class="fa-solid fa-bullhorn"></i> MEDIA & COMMUNITY DESK</span>
-                <h2 class="section-title">Fan Arena & <span class="text-accent">Social Hub</span></h2>
-                <p class="section-subtitle">Managed by Social Media Managers Dhruvi Pote & Shreesha.</p>
+    <!-- FAN ARENA & SOCIAL HUB -->
+    <section id="fanzone" class="py-24 relative bg-cyber-black/50 backdrop-blur-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-cyber-gold font-orbitron text-xs tracking-widest uppercase border border-cyber-gold/30 px-3 py-1 rounded-full">Media &amp; Community Desk</span>
+                <h2 class="font-orbitron font-black text-3xl sm:text-5xl text-white mt-3">Fan Arena &amp; <span class="text-cyber-gold">Social Hub</span></h2>
+                <p class="text-gray-400 font-rajdhani text-lg mt-2">Managed by Social Media Managers Druhii Pote &amp; shreesha Jangam.</p>
             </div>
 
-            <div class="fan-grid">
-                <div class="fan-card">
-                    <i class="fa-solid fa-bullhorn fan-icon accent"></i>
-                    <div class="fan-number"><span id="cheerCount" class="counter" data-target="4821">0</span></div>
-                    <p class="fan-label">Arena Cheers Logged</p>
-                    <button onclick="cheerNow()" class="btn-cheer">
-                        <i class="fa-solid fa-bolt"></i> Cheer #123
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-16">
+                <div class="glass-panel p-8 rounded-2xl text-center hover:border-cyber-gold transition">
+                    <i class="fa-solid fa-bullhorn text-cyber-gold text-3xl mb-4"></i>
+                    <div class="font-orbitron text-3xl font-black text-white mb-1"><span id="cheerCount" class="counter" data-target="4821">0</span></div>
+                    <p class="font-rajdhani text-gray-400 text-sm uppercase tracking-wide">Arena Cheers Logged</p>
+                    <button onclick="cheerNow()" class="mt-4 rounded-xl bg-gradient-to-r from-cyber-gold to-cyber-orange text-black px-6 py-2.5 font-orbitron text-xs font-black hover:opacity-90 transition-all shadow-lg shadow-cyber-gold/25">
+                        <i class="fa-solid fa-bolt mr-1"></i> Cheer #123
                     </button>
                 </div>
-                <div class="fan-card">
-                    <i class="fa-solid fa-handshake fan-icon cyan"></i>
-                    <div class="fan-number"><span class="counter" data-target="6">0</span></div>
-                    <p class="fan-label">Official Sponsors</p>
-                    <span class="fan-credit">Sponsorship desk: Shreesha</span>
+                <div class="glass-panel p-8 rounded-2xl text-center hover:border-cyber-cyan transition">
+                    <i class="fa-solid fa-handshake text-cyber-cyan text-3xl mb-4"></i>
+                    <div class="font-orbitron text-3xl font-black text-white mb-1"><span class="counter" data-target="6">0</span></div>
+                    <p class="font-rajdhani text-gray-400 text-sm uppercase tracking-wide">Official Sponsors</p>
+                    <span class="mt-4 inline-block text-xs font-orbitron text-cyber-cyan">Sponsorship desk: shreesha Jangam</span>
                 </div>
-                <div class="fan-card">
-                    <i class="fa-solid fa-video fan-icon green"></i>
-                    <div class="fan-number"><span class="counter" data-target="32">0</span></div>
-                    <p class="fan-label">Pit Vlogs Published</p>
-                    <span class="fan-credit">Content lead: Dhruvi Pote</span>
+                <div class="glass-panel p-8 rounded-2xl text-center hover:border-cyber-neonGreen transition">
+                    <i class="fa-solid fa-video text-cyber-neonGreen text-3xl mb-4"></i>
+                    <div class="font-orbitron text-3xl font-black text-white mb-1"><span class="counter" data-target="32">0</span></div>
+                    <p class="font-rajdhani text-gray-400 text-sm uppercase tracking-wide">Pit Vlogs Published</p>
+                    <span class="mt-4 inline-block text-xs font-orbitron text-cyber-neonGreen">Content lead: Druhii Pote</span>
                 </div>
             </div>
 
             <!-- Get In Touch / Contact QR Code Card -->
-            <div class="contact-qr-container">
-                <div class="contact-qr-card">
-                    <div class="qr-visual">
-                        <div class="qr-frame">
-                            <img src="images/contact-qr.png" alt="Robo Titans #123 Get In Touch QR Code" class="qr-code-img">
-                            <div class="qr-corner top-left"></div>
-                            <div class="qr-corner top-right"></div>
-                            <div class="qr-corner bottom-left"></div>
-                            <div class="qr-corner bottom-right"></div>
-                            <div class="qr-scanner-line"></div>
-                        </div>
-                        <div class="qr-badge">
-                            <i class="fa-solid fa-qrcode"></i> SCAN TO CONNECT
-                        </div>
+            <div class="glass-panel p-8 sm:p-10 rounded-3xl mb-16 border border-cyber-cyan/40 bg-cyber-dark/80 backdrop-blur-xl shadow-2xl flex flex-col md:flex-row items-center gap-8">
+                <div class="flex flex-col items-center flex-shrink-0">
+                    <div class="w-48 h-48 bg-white p-3 rounded-2xl relative shadow-xl shadow-cyber-cyan/20 border-2 border-cyber-cyan">
+                        <img src="images/contact-qr.png" alt="Get In Touch QR Code" class="w-full h-full object-contain rounded-lg">
                     </div>
-                    <div class="qr-details">
-                        <span class="section-tag"><i class="fa-solid fa-satellite-dish"></i> OFFICIAL COMMS &amp; PIT ACCESS</span>
-                        <h3 class="qr-title">Get In Touch With <span class="text-accent">Robo Titans #123</span></h3>
-                        <p class="qr-desc">
-                            Scan this QR code with your mobile camera or tap the button below to connect with our drivers, engineering leads, and pit crew for inquiries, partnerships, and team collaborations.
-                        </p>
-                        <div class="qr-action-group">
-                            <a href="https://share.gemini.google/4yuTkQ8M5Zgv" target="_blank" rel="noopener noreferrer" class="btn-primary" onclick="if (window.playTechSound) window.playTechSound()">
-                                <i class="fa-solid fa-arrow-up-right-from-square"></i> Open Direct Link
-                            </a>
-                            <span class="qr-helper-text">
-                                <i class="fa-solid fa-shield-halved text-accent"></i> Verified NRL 2026 Portal Link
-                            </span>
-                        </div>
-                        <div class="qr-contact-meta">
-                            <div class="meta-point"><i class="fa-solid fa-location-dot text-accent"></i> Navi Mumbai, India</div>
-                            <div class="meta-point"><i class="fa-solid fa-microchip text-cyan"></i> Heavyweight Bot TITAN-X123</div>
-                            <div class="meta-point"><i class="fa-solid fa-users text-gold"></i> 9 Titans Engineering Crew</div>
-                        </div>
+                    <span class="mt-3 text-xs font-orbitron font-bold text-cyber-cyan tracking-widest uppercase flex items-center gap-1.5">
+                        <i class="fa-solid fa-qrcode"></i> Scan to Connect
+                    </span>
+                </div>
+                <div class="flex-1 text-center md:text-left space-y-3">
+                    <span class="text-cyber-cyan font-orbitron text-xs tracking-widest uppercase border border-cyber-cyan/30 px-3 py-1 rounded-full inline-block">Official Comms &amp; Pit Access</span>
+                    <h3 class="font-orbitron font-black text-2xl sm:text-3xl text-white">Get In Touch With <span class="text-cyber-cyan">Robo Titans #123</span></h3>
+                    <p class="text-gray-300 font-rajdhani text-base sm:text-lg">
+                        Scan this QR code with your mobile camera or tap below to connect directly with our driver Rayan Dobani, pit crew, and engineering leads for sponsorship, match challenges, or arena inquiries.
+                    </p>
+                    <div class="pt-2 flex flex-wrap items-center justify-center md:justify-start gap-4">
+                        <a href="https://share.gemini.google/4yuTkQ8M5Zgv" target="_blank" rel="noopener noreferrer" class="rounded-xl bg-gradient-to-r from-cyber-cyan to-cyber-blue text-black px-6 py-3 font-orbitron text-xs font-black hover:opacity-90 transition-all transform hover:scale-105 shadow-lg shadow-cyber-cyan/30 flex items-center gap-2">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i> Open Direct Link
+                        </a>
+                        <span class="text-xs font-orbitron text-gray-400 flex items-center gap-1.5">
+                            <i class="fa-solid fa-shield-halved text-cyber-gold"></i> Verified NRL 2026 Portal Link
+                        </span>
                     </div>
                 </div>
+            </div>
+
+            <div class="text-center pt-8 border-t border-cyber-border/60">
+                <p class="font-rajdhani text-gray-400 text-base font-semibold">
+                    &copy; 2026 Robo Titans #123 &bull; National Robotics League Official Team Portal &bull; Built for the Arena.
+                </p>
             </div>
         </div>
     </section>
-
-    <!-- ========== FOOTER ========== -->
-    <footer class="site-footer">
-        <div class="container">
-            <div class="footer-inner">
-                <div class="footer-brand">
-                    <div class="footer-logo">
-                        <div class="logo-icon small"><i class="fa-solid fa-gear"></i></div>
-                        <div>
-                            <span class="logo-title small">ROBO <span class="text-accent">TITANS</span></span>
-                            <span class="logo-sub">NRL 2026</span>
-                        </div>
-                    </div>
-                </div>
-
-                <nav class="footer-nav">
-                    <a href="#">Home</a>
-                    <a href="#about">About</a>
-                    <a href="#roster">Tracks</a>
-                    <a href="#robot">Rules</a>
-                    <a href="#timeline">Timeline</a>
-                    <a href="#arena">Resources</a>
-                    <a href="#fanzone">Contact</a>
-                </nav>
-
-                <div class="footer-socials">
-                    <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-                    <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
-                    <a href="#" aria-label="X/Twitter"><i class="fa-brands fa-x-twitter"></i></a>
-                    <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2026 Robo Titans. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
 
     <!-- SCRIPTS -->
     <script src="js/audio.js"></script>
