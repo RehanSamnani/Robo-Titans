@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROBO TITANS #123 | NRL 2026 Official Team Portal & 3D Robotics Experience</title>
+    <meta name="description" content="Robo Titans #123 — India's premier combat robotics team competing in the National Robotics League 2026. Meet the 9 Titans, explore TITAN-X123 specs, and join the arena.">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Three.js for 3D Background -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- 3D ANIMATED BACKGROUND -->
+    <canvas id="bg3d"></canvas>
+    <div id="bg3d-overlay"></div>
+
+    <!-- FLOATING 3D BACKGROUND CAMERA DIRECTOR CONTROLLER -->
+    <div class="cam-director-bar hidden sm:flex" id="camToolbar">
+        <span class="cam-label">
+            <span class="pulse-dot"></span> 3D Cam:
+        </span>
+        <button class="cam-btn active" onclick="setCameraView('cinematic', this)" title="Panoramic Arena View">
+            <i class="fa-solid fa-cube"></i> Arena
+        </button>
+        <button class="cam-btn" onclick="setCameraView('drone', this)" title="Chase Aerial Drone">
+            <i class="fa-solid fa-helicopter"></i> Drone Cam
+        </button>
+        <button class="cam-btn" onclick="setCameraView('rover', this)" title="Pursue Cyber Car Highway">
+            <i class="fa-solid fa-car-side"></i> Car Chase
+        </button>
+        <button class="cam-btn" onclick="setCameraView('ground', this)" title="Laser Assembly Stations">
+            <i class="fa-solid fa-industry"></i> Laser Bay
+        </button>
+    </div>
+
+    <!-- ========== HEADER / NAVIGATION ========== -->
+    <header class="site-header" id="navbar">
+        <div class="header-inner">
+            <!-- Logo -->
+            <a href="#" class="logo-group">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-gear"></i>
+                </div>
+                <div class="logo-text">
+                    <span class="logo-title">ROBO <span class="text-accent">TITANS</span></span>
+                    <span class="logo-sub">NRL 2026</span>
+                </div>
+            </a>
+
+            <!-- Nav Links -->
+            <nav class="main-nav" id="mainNav">
+                <a href="#" class="nav-link active">Home</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="#roster" class="nav-link">9 Titans</a>
+                <a href="#robot" class="nav-link">Bot Specs</a>
+                <a href="#timeline" class="nav-link">Timeline</a>
+                <a href="#arena" class="nav-link">Tactical Map</a>
+                <a href="#fanzone" class="nav-link">Contact</a>
+            </nav>
+
+            <!-- CTA + Sound -->
+            <div class="header-actions">
+                <button id="soundToggle" onclick="toggleAudio()" class="btn-sound" title="Toggle Sci-Fi SFX">
+                    <i class="fa-solid fa-volume-xmark" id="soundIcon"></i>
+                </button>
+                <a href="#fanzone" onclick="cheerNow()" class="btn-register">
+                    Register Now <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <!-- Mobile Burger -->
+            <button class="mobile-menu-btn" id="menuBtn" onclick="toggleMobileMenu()">
+                <i class="fa-solid fa-bars-staggered"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="mobile-menu hidden">
+            <a href="#" onclick="toggleMobileMenu()" class="mobile-link">Home</a>
+            <a href="#about" onclick="toggleMobileMenu()" class="mobile-link">About</a>
+            <a href="#roster" onclick="toggleMobileMenu()" class="mobile-link">9 Titans</a>
+            <a href="#robot" onclick="toggleMobileMenu()" class="mobile-link">Bot Specs</a>
+            <a href="#timeline" onclick="toggleMobileMenu()" class="mobile-link">Timeline</a>
+            <a href="#arena" onclick="toggleMobileMenu()" class="mobile-link">Tactical Map</a>
+            <a href="#fanzone" onclick="toggleMobileMenu()" class="mobile-link accent">Contact</a>
+        </div>
+    </header>
+
+    <!-- ========== HERO SECTION ========== -->
+    <section class="hero-section" id="hero">
+        <div class="hero-grid">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span class="badge-dot"></span>
+                    NATIONAL ROBOTICS LEAGUE 2026
+                </div>
+
+                <h1 class="hero-title">
+                    ROBO<br>
+                    <span class="text-accent">TITANS</span> <span class="hero-hash">#123</span>
+                </h1>
+
+                <p class="hero-tagline">
+                    <span>BUILD</span> <span class="divider">/</span>
+                    <span>COMPETE</span> <span class="divider">/</span>
+                    <span>INNOVATE</span>
+                </p>
+
+                <p class="hero-description">
+                    India's premier national-level robotics competition for students. Design, build, and battle real-world challenges and showcase your innovation on a grand stage.
+                </p>
+
+                <div class="hero-meta">
+                    <div class="meta-item">
+                        <i class="fa-regular fa-calendar"></i>
+                        <span>15 – 17 MARCH 2026</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <span>Navi Mumbai, India</span>
+                    </div>
+                </div>
+
+                <div class="hero-buttons">
+                    <a href="#fanzone" class="btn-primary" onclick="if (window.playTechSound) window.playTechSound()">
+                        Register Your Team <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                    <a href="#robot" class="btn-secondary" onclick="if (window.playTechSound) window.playTechSound()">
+                        <i class="fa-solid fa-download"></i> Download Brochure
+                    </a>
+                </div>
+            </div>
+
+            <div class="hero-visual">
+                <img src="images/hero-robot.jpg" alt="TITAN-X123 Combat Robot" class="hero-robot-img">
+                <div class="hero-visual-overlay"></div>
+            </div>
+
+            <div class="hero-side-text">
+                <span>REAL PROBLEMS.</span>
+                <span>SMARTER</span>
+                <span>SOLUTIONS.</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== STATS BAR ========== -->
+    <section class="stats-bar">
+        <div class="stats-inner">
+            <div class="stat-item">
+                <div class="stat-icon"><i class="fa-solid fa-users"></i></div>
+                <div class="stat-info">
+                    <span class="stat-number counter" data-target="1000">0</span><span class="stat-plus">+</span>
+                    <span class="stat-label">Participants</span>
+                </div>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <div class="stat-icon"><i class="fa-solid fa-people-group"></i></div>
+                <div class="stat-info">
+                    <span class="stat-number counter" data-target="200">0</span><span class="stat-plus">+</span>
+                    <span class="stat-label">Teams</span>
+                </div>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <div class="stat-icon"><i class="fa-solid fa-indian-rupee-sign"></i></div>
+                <div class="stat-info">
+                    <span class="stat-number">₹10L+</span>
+                    <span class="stat-label">Prize Pool</span>
+                </div>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <div class="stat-icon"><i class="fa-solid fa-building-columns"></i></div>
+                <div class="stat-info">
+                    <span class="stat-number counter" data-target="50">0</span><span class="stat-plus">+</span>
+                    <span class="stat-label">Colleges</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== ABOUT SECTION ========== -->
+    <section id="about" class="section-about">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-content">
+                    <span class="section-tag">
+                        <i class="fa-solid fa-shield-halved"></i> ABOUT ROBO TITANS
+                    </span>
+                    <h2 class="section-title">
+                        More Than a<br><span class="text-accent">Competition</span>
+                    </h2>
+                    <p class="about-text">
+                        Robo Titans #123 is a national-level robotics competition for undergraduate and postgraduate students. It's a platform to learn, innovate, and showcase real-world problem-solving through robotics.
+                    </p>
+                    <p class="about-text-secondary">
+                        Led by Captain & Driver <strong>Rayan Dobani</strong> alongside Vice Captain & Human Player <strong>Aakhya Patki</strong>, our bot TITAN-X123 features a high-RPM vertical kinetic drum engineered by Master Builder <strong>Krinza Mardani</strong>, hardware telemetry from Technical Head <strong>Bhuvi Dubey</strong> and Tech Specialists <strong>Aradhya Dandey</strong> & <strong>Yati Agrawal</strong>, predictive scouting by <strong>Gaurav Chauhan</strong>, and live media outreach by <strong>Dhruvi Pote</strong> & <strong>Shreesha</strong>.
+                    </p>
+
+                    <div class="about-features">
+                        <div class="feature-item">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                            <span>Hands-on Learning</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fa-solid fa-puzzle-piece"></i>
+                            <span>Real-World Challenges</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fa-solid fa-building"></i>
+                            <span>Industry Exposure</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fa-solid fa-handshake"></i>
+                            <span>Network with Innovators</span>
+                        </div>
+                    </div>
+
+                    <a href="#roster" class="btn-learn-more">
+                        Learn More <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <div class="about-media">
+                    <div class="about-image-wrapper">
+                        <img src="images/about-robot.jpg" alt="Robot Assembly Workshop" class="about-img">
+                        <div class="play-button">
+                            <i class="fa-solid fa-play"></i>
+                        </div>
+                        <div class="watch-label">Watch Event Highlights</div>
+                    </div>
+                    <div class="about-quote">
+                        <p>Engineering today for a smarter tomorrow.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== TIMELINE SECTION ========== -->
+    <section id="timeline" class="section-timeline">
+        <div class="container">
+            <div class="timeline-header">
+                <div>
+                    <span class="section-tag"><i class="fa-regular fa-calendar"></i> IMPORTANT DATES</span>
+                    <h2 class="section-title">Competition <span class="text-accent">Timeline</span></h2>
+                </div>
+                <a href="#" class="view-all-link">View Full Timeline <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+
+            <div class="timeline-track">
+                <div class="timeline-line"></div>
+                <div class="timeline-item">
+                    <div class="timeline-node">
+                        <div class="node-icon"><i class="fa-regular fa-calendar-check"></i></div>
+                        <div class="node-connector active"></div>
+                    </div>
+                    <div class="timeline-date">01 JAN 2026</div>
+                    <div class="timeline-label">Registrations Open</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-node">
+                        <div class="node-icon"><i class="fa-solid fa-robot"></i></div>
+                        <div class="node-connector active"></div>
+                    </div>
+                    <div class="timeline-date">15 FEB 2026</div>
+                    <div class="timeline-label">Registrations Close</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-node">
+                        <div class="node-icon"><i class="fa-solid fa-paper-plane"></i></div>
+                        <div class="node-connector"></div>
+                    </div>
+                    <div class="timeline-date">20 FEB 2026</div>
+                    <div class="timeline-label">Submission Deadline</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-node">
+                        <div class="node-icon"><i class="fa-solid fa-users"></i></div>
+                        <div class="node-connector"></div>
+                    </div>
+                    <div class="timeline-date">05 MAR 2026</div>
+                    <div class="timeline-label">Shortlisted Teams Announced</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-node highlight">
+                        <div class="node-icon"><i class="fa-solid fa-trophy"></i></div>
+                        <div class="node-connector"></div>
+                    </div>
+                    <div class="timeline-date accent">15–17 MAR 2026</div>
+                    <div class="timeline-label">Grand Finale (On-site)</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== ROSTER OF 9 TITANS ========== -->
+    <section id="roster" class="section-roster">
+        <div class="container">
+            <div class="section-header-center">
+                <span class="section-tag"><i class="fa-solid fa-users-gear"></i> SQUAD COMMAND STRUCTURE</span>
+                <h2 class="section-title">Meet the <span class="text-accent">9 Titans</span></h2>
+                <p class="section-subtitle">Filter by specialization to inspect our leadership, engineering fab, and strategic units.</p>
+            </div>
+
+            <div class="filter-bar" id="rosterFilters">
+                <button onclick="filterRoster('all', this)" class="filter-btn active">All 9 Titans</button>
+                <button onclick="filterRoster('leadership', this)" class="filter-btn">Leadership</button>
+                <button onclick="filterRoster('tech', this)" class="filter-btn">Tech & Build</button>
+                <button onclick="filterRoster('media', this)" class="filter-btn">Strategy & Media</button>
+            </div>
+
+            <div class="roster-grid" id="rosterGrid">
+
+                <!-- 1. Rayan Dobani -->
+                <div class="roster-card captain" data-role="leadership">
+                    <div class="card-badge captain-badge">Captain & Driver</div>
+                    <div class="card-header">
+                        <div class="avatar avatar-cyan">RD</div>
+                        <div>
+                            <span class="card-role">Primary Transmitter Control</span>
+                            <h3 class="card-name">Rayan Dobani</h3>
+                            <span class="card-position">Team Captain & Robot Driver</span>
+                        </div>
+                    </div>
+                    <p class="card-desc">Controls TITAN-X123 inside the NRL combat arena, handling high-speed drift maneuvers, wedge geometry angles, and kinetic drum contact timing.</p>
+                    <div class="card-tags">
+                        <span class="tag tag-cyan">Arena Driver</span>
+                        <span class="tag">Team Captain</span>
+                        <span class="tag tag-accent">Tactical Lead</span>
+                    </div>
+                </div>
+
+                <!-- 2. Aakhya Patki -->
+                <div class="roster-card" data-role="leadership">
+                    <div class="card-badge accent-badge">Vice Captain</div>
+                    <div class="card-header">
+                        <div class="avatar avatar-accent">AP</div>
+                        <div>
+                            <span class="card-role accent">Human Player & Pit Co-ord</span>
+                            <h3 class="card-name">Aakhya Patki</h3>
+                            <span class="card-position">Vice Captain & Human Player</span>
+                        </div>
+                    </div>
+                    <p class="card-desc">Manages human player arena slot activations, un-sticking protocol requests with NRL referees, and live driver communication headsets.</p>
+                    <div class="card-tags">
+                        <span class="tag tag-accent">Human Player</span>
+                        <span class="tag">Vice Captain</span>
+                        <span class="tag tag-cyan">Pit Coordinator</span>
+                    </div>
+                </div>
+
+                <!-- 3. Gaurav Chauhan -->
+                <div class="roster-card" data-role="media">
+                    <div class="card-badge green-badge">Strategist</div>
+                    <div class="card-header">
+                        <div class="avatar avatar-green">GC</div>
+                        <div>
+                            <span class="card-role green">Match Analytics & Scouting</span>
+                            <h3 class="card-name">Gaurav Chauhan</h3>
+                            <span class="card-position">Team Strategist & Statistics Lead</span>
+                        </div>
+                    </div>
+                    <p class="card-desc">Calculates opponent weapon tip speeds, wedge ground-clearances, and judge scoring parameters to prepare tailored victory playbooks.</p>
+                    <div class="card-tags">
+                        <span class="tag tag-green">Match Statistics</span>
+                        <span class="tag">Scouting Lead</span>
+                        <span class="tag tag-accent">Tactical Models</span>
+                    </div>
+                </div>
+
+                <!-- 4. Krinza Mardani -->
+                <div class="roster-card" data-role="tech">
+                    <div class="card-badge orange-badge">Master Builder</div>
+                    <div class="card-header">
+                        <div class="avatar avatar-orange">KM</div>
+                        <div>
+                            <span class="card-role orange">Hardware & CNC Fabrication</span>
+                            <h3 class="card-name">Krinza Mardani</h3>
+                            <span class="card-position">Master Builder & Mechanical Lead</span>
+                        </div>
+                    </div>
+                    <p class="card-desc">Designs CAD 3D assemblies, mills 7075 aircraft aluminum chassis rails, and welds titanium armor bulkheads for maximum deflection.</p>
+                    <div class="card-tags">
+                        <span class="tag tag-orange">CAD / CAM Milling</span>
+                        <span class="tag">Titanium Welding</span>
+                        <span class="tag tag-cyan">Assembly Fab</span>
+                    </div>
+                </div>
+
+                <!-- 5. Bhuvi Dubey -->
+                <div class="roster-card" data-role="tech">
+                    <div class="card-badge cyan-badge">Tech Head</div>
+                    <div class="card-header">
+                        <div class="avatar avatar-cyan">BD</div>
+                        <div>
+                            <span class="card-role">Electronics & VESC Lead</span>
+                            <h3 class="card-name">Bhuvi Dubey</h3>
+                            <span class="card-position">Technical Head</span>
+                        </div>
+                    </div>
+                    <p class="card-desc">Leads electronics integration, 12S brushless motor tuning, CAN-bus bus-mastering, and high-current power distribution to speed controllers.</p>
+                    <div class="card-tags">
+                        <span class="tag tag-cyan">Technical Head</span>
+                        <span class="tag">VESC Firmware</span>
+                        <span class="tag tag-green">Power Systems</span>
+                    </div>
+                </div>
+
+                <!-- 6. Aradhya Dandey -->
+                <div class="roster-card" data-role="tech">
+                    <div class="card-badge purple-badge">Tech Specialist</div>
+                    <div class="card-header">
+                        <div class="avatar avatar-purple">AD</div>
+                        <div>
+                            <span class="card-role purple">Circuits & Battery Safety</span>
+                            <h3 class="card-name">Aradhya Dandey</h3>
+                            <span class="card-position">Technical Team Specialist</span>
+                        </div>
+                    </div>
+                    <p class="card-desc">Engineers shock-damped LiPo battery containment cages and quick-release high-voltage safety switches for rapid pit turnaround.</p>
+                    <div class="card-tags">
+                        <span class="tag tag-purple">Tech Team</span>
+                        <span class="tag">LiPo Harnessing</span>
+                        <span class="tag tag-cyan">Circuit Fuses</span>
+                    </div>
+                </div>
+
+                <!-- 7. Yati Agrawal -->
+                <div class="roster-card" data-role="tech">
+                    <div class="card-badge cyan-badge">Tech Specialist</div>
+                    <div class="card-header">
+                        <div class="avatar avatar-cyan">YA</div>
+                        <div>
+                            <span class="card-role">Embedded Code & Gyro</span>
+                            <h3 class="card-name">Yati Agrawal</h3>
+                            <span class="card-position">Technical Team Specialist</span>
+                        </div>
+                    </div>
+                    <p class="card-desc">Programs failsafe control routines, gyro auto-inversion driving logic, and wireless Bluetooth/CAN telemetry links to pit monitors.</p>
+                    <div class="card-tags">
+                        <span class="tag tag-cyan">Tech Team</span>
+                        <span class="tag">Gyro Invert</span>
+                        <span class="tag tag-accent">Telemetry Feed</span>
+                    </div>
+                </div>
+
+                <!-- 8. Dhruvi Pote -->
+                <div class="roster-card" data-role="media">
+                    <div class="card-badge pink-badge">Social Lead</div>
+                    <div class="card-header">
+                        <div class="avatar avatar-pink">DP</div>
+                        <div>
+                            <span class="card-role pink">Media Streaming & Content</span>
+                            <h3 class="card-name">Dhruvi Pote</h3>
+                            <span class="card-position">Social Media Manager</span>
+                        </div>
+                    </div>
+                    <p class="card-desc">Directs online arena live streaming, match replay analytics, press updates, and high-energy social engagement for Robo Titans #123.</p>
+                    <div class="card-tags">
+                        <span class="tag tag-pink">Social Manager</span>
+                        <span class="tag">Match Broadcast</span>
+                        <span class="tag tag-accent">Digital Press</span>
+                    </div>
+                </div>
+
+                <!-- 9. Shreesha -->
+                <div class="roster-card" data-role="media">
+                    <div class="card-badge accent-badge">Community Lead</div>
+                    <div class="card-header">
+                        <div class="avatar avatar-accent">SH</div>
+                        <div>
+                            <span class="card-role accent">Community & Sponsor Desk</span>
+                            <h3 class="card-name">Shreesha</h3>
+                            <span class="card-position">Social Media Manager</span>
+                        </div>
+                    </div>
+                    <p class="card-desc">Manages team sponsor partnerships, pit interview logs, fan arena voting desks, and live audience interaction during match days.</p>
+                    <div class="card-tags">
+                        <span class="tag tag-accent">Social Manager</span>
+                        <span class="tag">Fan Relations</span>
+                        <span class="tag tag-cyan">Pit Vlogs</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== BOT SPECS ========== -->
+    <section id="robot" class="section-specs">
+        <div class="container">
+            <div class="section-header-center">
+                <span class="section-tag"><i class="fa-solid fa-robot"></i> HEAVYWEIGHT 250 LB COMBAT BOT</span>
+                <h2 class="section-title">Bot Specs: <span class="text-accent">TITAN-X123</span></h2>
+                <p class="section-subtitle">Precision engineered by Krinza Mardani • Electronics & tuning by Bhuvi, Aradhya & Yati.</p>
+            </div>
+
+            <div class="specs-grid">
+                <div class="specs-visual">
+                    <div class="specs-header-bar">
+                        <span class="specs-status">
+                            <span class="pulse-dot green"></span> CAN-Bus Telemetry: Active
+                        </span>
+                        <span class="specs-driver">Driver: Rayan Dobani</span>
+                    </div>
+
+                    <!-- Weapon Drum Animation -->
+                    <div class="weapon-display">
+                        <div class="drum-container">
+                            <div class="drum-outer">
+                                <div id="weaponBlade" class="drum-blade"></div>
+                                <div class="drum-center">
+                                    <span>TITAN</span>
+                                    <span class="drum-hash">#123</span>
+                                </div>
+                            </div>
+                            <p class="drum-label">Vertical Kinetic Drum Assembly</p>
+                        </div>
+                        <div class="weapon-stat weapon-stat-left">
+                            <div>Weapon RPM: <span id="rpmVal" class="text-accent">13,500</span></div>
+                            <div>Kinetic Energy: <span id="joulesVal" class="text-gold">58.4 kJ</span></div>
+                        </div>
+                        <div class="weapon-stat weapon-stat-right">
+                            <div>Armor: <span class="text-white">AR500 Titanium</span></div>
+                            <div>Driver: <span class="text-accent">Rayan Dobani</span></div>
+                        </div>
+                    </div>
+
+                    <!-- Throttle Slider -->
+                    <div class="throttle-panel">
+                        <div class="throttle-header">
+                            <span><i class="fa-solid fa-gauge-high text-accent"></i> Throttle Simulator:</span>
+                            <span id="throttlePercent" class="text-accent">100% Max RPM</span>
+                        </div>
+                        <input type="range" id="throttleSlider" min="0" max="13500" value="13500" step="500" class="throttle-slider">
+                        <div class="throttle-labels">
+                            <span>0 RPM (Idle)</span>
+                            <span>6,750 RPM (Mid)</span>
+                            <span>13,500 RPM (Max Impact)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="specs-data">
+                    <div class="telemetry-card">
+                        <h3 class="telemetry-title">
+                            <span>Hardware Telemetry Ratings</span>
+                            <i class="fa-solid fa-bolt text-accent"></i>
+                        </h3>
+                        <div class="telemetry-bar">
+                            <div class="bar-label"><span>AWD Drive Torque (Rayan's Transmitter)</span><span class="text-accent">96%</span></div>
+                            <div class="bar-track"><div class="bar-fill fill-cyan" style="width: 96%"></div></div>
+                        </div>
+                        <div class="telemetry-bar">
+                            <div class="bar-label"><span>Titanium Armor Integrity (Krinza's Fab)</span><span class="text-gold">98%</span></div>
+                            <div class="bar-track"><div class="bar-fill fill-gold" style="width: 98%"></div></div>
+                        </div>
+                        <div class="telemetry-bar">
+                            <div class="bar-label"><span>VESC Current Density (Bhuvi's Code)</span><span class="text-green">95%</span></div>
+                            <div class="bar-track"><div class="bar-fill fill-green" style="width: 95%"></div></div>
+                        </div>
+                        <div class="telemetry-bar">
+                            <div class="bar-label"><span>LiPo Thermal Isolation (Aradhya & Yati)</span><span class="text-purple">100%</span></div>
+                            <div class="bar-track"><div class="bar-fill fill-purple" style="width: 100%"></div></div>
+                        </div>
+                    </div>
+
+                    <div class="spec-tiles">
+                        <div class="spec-tile">
+                            <span class="tile-label text-accent">Chassis Material</span>
+                            <span class="tile-value">AR500 & 7075-T6 Billet</span>
+                        </div>
+                        <div class="spec-tile">
+                            <span class="tile-label text-gold">Motors & ESC</span>
+                            <span class="tile-value">4x Brushless 12S VESC</span>
+                        </div>
+                        <div class="spec-tile">
+                            <span class="tile-label text-orange">Battery Plant</span>
+                            <span class="tile-value">12S 6200mAh LiPo</span>
+                        </div>
+                        <div class="spec-tile">
+                            <span class="tile-label text-green">Weapon Blade</span>
+                            <span class="tile-value">45lb Hardened Steel Drum</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== TACTICAL ARENA ========== -->
+    <section id="arena" class="section-arena">
+        <div class="container">
+            <div class="section-header-center">
+                <span class="section-tag"><i class="fa-solid fa-map-location-dot"></i> SCOUTING PORTAL BY GAURAV CHAUHAN</span>
+                <h2 class="section-title">Tactical Arena <span class="text-accent">Scout Map</span></h2>
+                <p class="section-subtitle">Visual positioning map for Driver Rayan Dobani & Human Player Aakhya Patki.</p>
+            </div>
+
+            <div class="arena-grid">
+                <div class="arena-map-panel">
+                    <div class="arena-toolbar">
+                        <span class="arena-title"><i class="fa-solid fa-map-location-dot"></i> NRL Combat Arena Grid (30ft x 30ft Steel Box)</span>
+                        <div class="arena-presets">
+                            <button onclick="setTacticalPreset('rush', this)" class="tactics-btn btn-cyan">Rush</button>
+                            <button onclick="setTacticalPreset('grind', this)" class="tactics-btn btn-gold">Pin & Grind</button>
+                            <button onclick="setTacticalPreset('counter', this)" class="tactics-btn btn-orange">Counter</button>
+                            <button onclick="setTacticalPreset('evade', this)" class="tactics-btn btn-green">Evade</button>
+                        </div>
+                    </div>
+
+                    <div class="arena-canvas">
+                        <div class="arena-grid-bg"></div>
+                        <!-- Hazards -->
+                        <div class="arena-hazard" style="top: 25%; left: 25%;">
+                            <span>Saw</span>
+                        </div>
+                        <div class="arena-hazard" style="bottom: 25%; right: 25%;">
+                            <span>Saw</span>
+                        </div>
+                        <div class="arena-pit">Pit Trap</div>
+                        <div class="arena-label-bottom">Driver Pod: Rayan Dobani</div>
+                        <div class="arena-label-top">Human Player Slot: Aakhya Patki</div>
+                        <!-- Bot Vector -->
+                        <div id="botVector" class="bot-vector" style="top: 52%; left: 48%;">
+                            <div class="radar-pulse-ring"></div>
+                            <span>#123</span>
+                            <i class="fa-solid fa-arrow-up bounce-icon"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="arena-sidebar">
+                    <div class="tactical-card">
+                        <div class="tactical-header">
+                            <div class="tactical-avatar">GC</div>
+                            <div>
+                                <h4>Gaurav's Tactical Breakdown</h4>
+                                <span>Lead Strategist & Scouting Analytics</span>
+                            </div>
+                        </div>
+                        <p id="tacticalDesc">"Aggressive rush: Driver Rayan Dobani executes immediate arena-center seizure within 2.8 seconds, denying opposing wedge angle leverage and dictating line-of-engagement."</p>
+                    </div>
+
+                    <div class="rules-card">
+                        <h4>NRL Arena Rule Recalibration</h4>
+                        <ul>
+                            <li><i class="fa-solid fa-check"></i> Ref un-stick calls managed by Aakhya Patki</li>
+                            <li><i class="fa-solid fa-check"></i> Active weapon requirement maxed at 13,500 RPM</li>
+                            <li><i class="fa-solid fa-check"></i> Judge scoring: 6pt Damage, 3pt Aggression, 2pt Control</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== NRL MATCH MATRIX ========== -->
+    <section id="matches" class="section-matches">
+        <div class="container">
+            <div class="matches-header">
+                <div>
+                    <span class="section-tag"><i class="fa-solid fa-trophy"></i> CHAMPIONSHIP SCHEDULE</span>
+                    <h2 class="section-title">NRL 2026 <span class="text-accent">Match Matrix</span></h2>
+                </div>
+                <div class="filter-bar" id="matchFilters">
+                    <button onclick="filterMatches('all', this)" class="filter-btn active">All Matches</button>
+                    <button onclick="filterMatches('qualifier', this)" class="filter-btn">Qualifiers</button>
+                    <button onclick="filterMatches('playoff', this)" class="filter-btn">Finals / Playoffs</button>
+                </div>
+            </div>
+
+            <div class="match-table-wrapper">
+                <table class="match-table">
+                    <thead>
+                        <tr>
+                            <th>Phase</th>
+                            <th>Rival Bot / Opponent</th>
+                            <th>Driver & Pit Tactical Call</th>
+                            <th>Gaurav's Win Ratio</th>
+                            <th class="text-right">Match Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="match-row" data-category="playoff">
+                            <td><span class="phase-badge phase-finals">Finals</span></td>
+                            <td class="opponent-cell">
+                                <div class="opponent-icon pink">#01</div>
+                                Team CyberSledge (Hammer Bot)
+                            </td>
+                            <td class="tactic-cell">Rayan wedge-charge; neutralize top armor hammer</td>
+                            <td class="ratio-cell text-accent">88% Probability</td>
+                            <td class="text-right"><span class="status-badge status-upcoming"><span class="ping-dot"></span> Upcoming</span></td>
+                        </tr>
+                        <tr class="match-row" data-category="playoff">
+                            <td><span class="phase-badge phase-semi">Semi-Final</span></td>
+                            <td class="opponent-cell">
+                                <div class="opponent-icon cyan">#08</div>
+                                ApexCrusher (Horizontal Spinner)
+                            </td>
+                            <td class="tactic-cell">Frontal titanium wedge deflection by Rayan</td>
+                            <td class="ratio-cell text-green">Victory</td>
+                            <td class="text-right"><span class="status-badge status-win"><i class="fa-solid fa-trophy"></i> Win (KO 0:42)</span></td>
+                        </tr>
+                        <tr class="match-row" data-category="qualifier">
+                            <td><span class="phase-badge phase-qualifier">Qualifier R2</span></td>
+                            <td class="opponent-cell">
+                                <div class="opponent-icon">#22</div>
+                                IronClaw Lifter
+                            </td>
+                            <td class="tactic-cell">Aakhya feeder alert: spin weapon to max energy</td>
+                            <td class="ratio-cell text-green">Victory</td>
+                            <td class="text-right"><span class="status-badge status-win"><i class="fa-solid fa-trophy"></i> Win (3-0 Judges)</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== CTA SECTION ========== -->
+    <section class="section-cta">
+        <div class="container">
+            <div class="cta-grid">
+                <div class="cta-content">
+                    <span class="cta-tag">READY TO BUILD</span>
+                    <h2 class="cta-title">THE FUTURE?</h2>
+                    <p class="cta-text">Join Robo Titans #123 and be a part of India's biggest robotics league.</p>
+                    <div class="cta-buttons">
+                        <a href="#fanzone" class="btn-primary">Register Now <i class="fa-solid fa-arrow-right"></i></a>
+                        <a href="#" class="btn-secondary"><i class="fa-solid fa-download"></i> Download Brochure</a>
+                    </div>
+                </div>
+                <div class="cta-side">
+                    <span>INNOVATE</span>
+                    <span>COMPETE</span>
+                    <span class="text-accent">MAKE AN IMPACT</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== FAN ZONE ========== -->
+    <section id="fanzone" class="section-fanzone">
+        <div class="container">
+            <div class="section-header-center">
+                <span class="section-tag"><i class="fa-solid fa-bullhorn"></i> MEDIA & COMMUNITY DESK</span>
+                <h2 class="section-title">Fan Arena & <span class="text-accent">Social Hub</span></h2>
+                <p class="section-subtitle">Managed by Social Media Managers Dhruvi Pote & Shreesha.</p>
+            </div>
+
+            <div class="fan-grid">
+                <div class="fan-card">
+                    <i class="fa-solid fa-bullhorn fan-icon accent"></i>
+                    <div class="fan-number"><span id="cheerCount" class="counter" data-target="4821">0</span></div>
+                    <p class="fan-label">Arena Cheers Logged</p>
+                    <button onclick="cheerNow()" class="btn-cheer">
+                        <i class="fa-solid fa-bolt"></i> Cheer #123
+                    </button>
+                </div>
+                <div class="fan-card">
+                    <i class="fa-solid fa-handshake fan-icon cyan"></i>
+                    <div class="fan-number"><span class="counter" data-target="6">0</span></div>
+                    <p class="fan-label">Official Sponsors</p>
+                    <span class="fan-credit">Sponsorship desk: Shreesha</span>
+                </div>
+                <div class="fan-card">
+                    <i class="fa-solid fa-video fan-icon green"></i>
+                    <div class="fan-number"><span class="counter" data-target="32">0</span></div>
+                    <p class="fan-label">Pit Vlogs Published</p>
+                    <span class="fan-credit">Content lead: Dhruvi Pote</span>
+                </div>
+            </div>
+
+            <!-- Get In Touch / Contact QR Code Card -->
+            <div class="contact-qr-container">
+                <div class="contact-qr-card">
+                    <div class="qr-visual">
+                        <div class="qr-frame">
+                            <img src="images/contact-qr.png" alt="Robo Titans #123 Get In Touch QR Code" class="qr-code-img">
+                            <div class="qr-corner top-left"></div>
+                            <div class="qr-corner top-right"></div>
+                            <div class="qr-corner bottom-left"></div>
+                            <div class="qr-corner bottom-right"></div>
+                            <div class="qr-scanner-line"></div>
+                        </div>
+                        <div class="qr-badge">
+                            <i class="fa-solid fa-qrcode"></i> SCAN TO CONNECT
+                        </div>
+                    </div>
+                    <div class="qr-details">
+                        <span class="section-tag"><i class="fa-solid fa-satellite-dish"></i> OFFICIAL COMMS &amp; PIT ACCESS</span>
+                        <h3 class="qr-title">Get In Touch With <span class="text-accent">Robo Titans #123</span></h3>
+                        <p class="qr-desc">
+                            Scan this QR code with your mobile camera or tap the button below to connect with our drivers, engineering leads, and pit crew for inquiries, partnerships, and team collaborations.
+                        </p>
+                        <div class="qr-action-group">
+                            <a href="https://share.gemini.google/4yuTkQ8M5Zgv" target="_blank" rel="noopener noreferrer" class="btn-primary" onclick="if (window.playTechSound) window.playTechSound()">
+                                <i class="fa-solid fa-arrow-up-right-from-square"></i> Open Direct Link
+                            </a>
+                            <span class="qr-helper-text">
+                                <i class="fa-solid fa-shield-halved text-accent"></i> Verified NRL 2026 Portal Link
+                            </span>
+                        </div>
+                        <div class="qr-contact-meta">
+                            <div class="meta-point"><i class="fa-solid fa-location-dot text-accent"></i> Navi Mumbai, India</div>
+                            <div class="meta-point"><i class="fa-solid fa-microchip text-cyan"></i> Heavyweight Bot TITAN-X123</div>
+                            <div class="meta-point"><i class="fa-solid fa-users text-gold"></i> 9 Titans Engineering Crew</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-inner">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <div class="logo-icon small"><i class="fa-solid fa-gear"></i></div>
+                        <div>
+                            <span class="logo-title small">ROBO <span class="text-accent">TITANS</span></span>
+                            <span class="logo-sub">NRL 2026</span>
+                        </div>
+                    </div>
+                </div>
+
+                <nav class="footer-nav">
+                    <a href="#">Home</a>
+                    <a href="#about">About</a>
+                    <a href="#roster">Tracks</a>
+                    <a href="#robot">Rules</a>
+                    <a href="#timeline">Timeline</a>
+                    <a href="#arena">Resources</a>
+                    <a href="#fanzone">Contact</a>
+                </nav>
+
+                <div class="footer-socials">
+                    <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="#" aria-label="X/Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Robo Titans. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script src="js/audio.js"></script>
+    <script src="js/background-3d.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
